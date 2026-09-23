@@ -30,8 +30,6 @@ const Login = () => {
     setLoading(true);
     try {
       const user = await login(form);
-      if (setTheme) setTheme('light');
-      localStorage.setItem('zira_theme', 'light');
       toast.success(`Welcome, ${user.full_name}`);
       navigate(user.role_name === 'admin' ? '/admin/dashboard' : '/dashboard', { replace: true });
     } catch (error) {
