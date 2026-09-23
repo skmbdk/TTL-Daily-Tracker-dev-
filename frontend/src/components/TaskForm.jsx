@@ -344,18 +344,37 @@ const TaskForm = ({
               return (
                 <>
                   {groups.map((group) => (
-                    <optgroup key={group.parentName} label={group.parentName.toUpperCase()}>
+                    <optgroup
+                      key={group.parentName}
+                      label={group.parentName.toUpperCase()}
+                      className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[#18181b] text-zinc-400 font-bold'}
+                      style={{ backgroundColor: isLight ? '#f1f5f9' : '#18181b', color: isLight ? '#475569' : '#a1a1aa' }}
+                    >
                       {group.subProjects.map((sp) => (
-                        <option key={sp.project_id} value={sp.project_id}>
+                        <option
+                          key={sp.project_id}
+                          value={sp.project_id}
+                          className={isLight ? 'bg-white text-slate-900' : 'bg-[#1c1c20] text-zinc-100'}
+                          style={{ backgroundColor: isLight ? '#ffffff' : '#1c1c20', color: isLight ? '#0f172a' : '#f4f4f5' }}
+                        >
                           {sp.project_name}
                         </option>
                       ))}
                     </optgroup>
                   ))}
                   {topLevel.length > 0 && (
-                    <optgroup label={groups.length > 0 ? 'Other Projects' : 'Projects'}>
+                    <optgroup
+                      label={groups.length > 0 ? 'OTHER PROJECTS' : 'PROJECTS'}
+                      className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[#18181b] text-zinc-400 font-bold'}
+                      style={{ backgroundColor: isLight ? '#f1f5f9' : '#18181b', color: isLight ? '#475569' : '#a1a1aa' }}
+                    >
                       {topLevel.map((p) => (
-                        <option key={p.project_id} value={p.project_id}>
+                        <option
+                          key={p.project_id}
+                          value={p.project_id}
+                          className={isLight ? 'bg-white text-slate-900' : 'bg-[#1c1c20] text-zinc-100'}
+                          style={{ backgroundColor: isLight ? '#ffffff' : '#1c1c20', color: isLight ? '#0f172a' : '#f4f4f5' }}
+                        >
                           {p.project_name}
                         </option>
                       ))}

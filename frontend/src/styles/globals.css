@@ -111,6 +111,31 @@
   background: var(--app-bg);
 }
 
+/* Cross-OS native select dropdown, optgroup, and option dark/light styling for Windows & Mac */
+select option {
+  background-color: var(--panel-raised, #1c1c20);
+  color: var(--text-primary, #f4f4f5);
+  padding: 6px 12px;
+}
+
+select optgroup {
+  background-color: #141417 !important;
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  padding: 6px 4px !important;
+}
+
+:root[data-theme='light'] select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+:root[data-theme='light'] select optgroup {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
 * {
   box-sizing: border-box;
 }
