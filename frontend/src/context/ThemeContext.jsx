@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => localStorage.getItem('zira_theme') || 'light');
+  const [theme, setTheme] = useState(() => localStorage.getItem('zira_theme') || 'dark');
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
