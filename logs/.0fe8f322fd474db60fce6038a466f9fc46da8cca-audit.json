@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "/Users/apple/Desktop/TTL_Tracker_Office-main/logs/.0fe8f322fd474db60fce6038a466f9fc46da8cca-audit.json",
+    "files": [
+        {
+            "date": 1790078478798,
+            "name": "/Users/apple/Desktop/TTL_Tracker_Office-main/logs/app-2026-09-22.log",
+            "hash": "3f5d8469d04ab49b188693796d77931420a1c10c0df4909b455f7a10a44527d5"
+        }
+    ],
+    "hashType": "sha256"
+}

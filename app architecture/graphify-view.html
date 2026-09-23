@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zira Graphify View</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #f7f8fb;
+        --panel: #ffffff;
+        --ink: #111827;
+        --muted: #5f6b7a;
+        --line: #d7dde6;
+        --accent: #007c89;
+        --accent-2: #a33d3d;
+        --shadow: 0 16px 38px rgba(27, 39, 61, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: var(--page);
+        color: var(--ink);
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      aside {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        border-right: 1px solid var(--line);
+        background: #101827;
+        color: #eef2f7;
+        padding: 24px 18px;
+      }
+
+      .brand {
+        margin: 0 0 20px;
+        font-size: 19px;
+        line-height: 1.2;
+      }
+
+      .subtle {
+        color: #aab4c3;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      nav {
+        display: grid;
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      nav a {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #eef2f7;
+        padding: 10px 12px;
+        text-decoration: none;
+        transition:
+          background 160ms ease,
+          border-color 160ms ease,
+          transform 180ms ease;
+      }
+
+      nav a:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      main {
+        min-width: 0;
+        padding: 28px;
+      }
+
+      header {
+        margin: 0 auto 22px;
+        max-width: 1360px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .lede {
+        max-width: 760px;
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        margin: 0 auto;
+        max-width: 1360px;
+      }
+
+      section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        padding: 16px 18px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 17px;
+        letter-spacing: 0;
+      }
+
+      .tag {
+        border-radius: 999px;
+        background: #e8f4f5;
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 9px;
+        white-space: nowrap;
+      }
+
+      .diagram-wrap {
+        min-height: 360px;
+        overflow: auto;
+        padding: 18px;
+      }
+
+      .mermaid {
+        display: flex;
+        justify-content: center;
+        min-width: 920px;
+        margin: 0;
+      }
+
+      .notes {
+        display: grid;
+        gap: 12px;
+        margin: 0 auto 24px;
+        max-width: 1360px;
+      }
+
+      .note {
+        border-left: 4px solid var(--accent-2);
+        border-radius: 8px;
+        background: #fff7f4;
+        color: #5f3030;
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      code {
+        border-radius: 6px;
+        background: rgba(17, 24, 39, 0.07);
+        padding: 2px 5px;
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        aside {
+          position: relative;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        main {
+          padding: 18px;
+        }
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside>
+        <h1 class="brand">Zira Graphify View</h1>
+        <p class="subtle">
+          Rendered from the Mermaid architecture maps in <code>ARCHITECTURE.md</code>.
+        </p>
+        <nav aria-label="Graph navigation">
+          <a href="#system">System Graph</a>
+          <a href="#routes">Frontend Routes</a>
+          <a href="#composition">Frontend Composition</a>
+          <a href="#backend">Backend Routes</a>
+          <a href="#database">Database Entities</a>
+        </nav>
+      </aside>
+
+      <main>
+        <header>
+          <h1>Architecture Graphs</h1>
+          <p class="lede">
+            Current map of the React/Vite frontend, Express API, SQL Server schema,
+            and the service/controller boundaries that connect them.
+          </p>
+        </header>
+
+        <div class="notes" aria-label="Graph notes">
+          <div class="note">
+            <code>Reports.jsx</code> exists and can export Excel through
+            <code>reportService</code>, but it is not mounted in <code>App.jsx</code>.
+          </div>
+          <div class="note">
+            <code>Graphify.jsx</code> exists as an empty page file and is not mounted.
+          </div>
+        </div>
+
+        <div class="grid">
+          <section id="system">
+            <div class="section-head">
+              <h2>System Graph</h2>
+              <span class="tag">frontend to database</span>
+            </div>
+            <div class="diagram-wrap">
+              <pre class="mermaid">
+graph TD
+    classDef browser fill:#172554,stroke:#60a5fa,color:#eff6ff
+    classDef react fill:#0f172a,stroke:#22d3ee,color:#ecfeff
+    classDef service fill:#164e63,stroke:#67e8f9,color:#ecfeff
+    classDef node fill:#052e16,stroke:#34d399,color:#ecfdf5
+    classDef guard fill:#451a03,stroke:#f59e0b,color:#fffbeb
+    classDef db fill:#4c0519,stroke:#fb7185,color:#fff1f2
+    classDef script fill:#312e81,stroke:#a5b4fc,color:#eef2ff
+
+    Browser["Browser"]:::browser --> Main["frontend/src/main.jsx"]:::react
+    Main --> Providers["ThemeProvider + AuthProvider"]:::react
+    Providers --> App["App.jsx routes"]:::react
+    App --> Layout["Sidebar + Navbar + page outlet"]:::react
+
+    Layout --> Dashboards["AdminDashboard / UserDashboard"]:::react
+    Layout --> Kanban["Kanban"]:::react
+    Layout --> Tasks["Tasks"]:::react
+    Layout --> AdminPages["Admin Users / Projects"]:::react
+    App --> Login["Login"]:::react
+
+    Dashboards --> DashboardService["dashboardService"]:::service
+    Kanban --> TaskService["taskService"]:::service
+    Kanban --> ProjectService["projectService"]:::service
+    Kanban --> UserService["userService"]:::service
+    Tasks --> TaskService
+    Tasks --> ProjectService
+    Tasks --> UserService
+    Tasks --> ReportService["reportService"]:::service
+    AdminPages --> ProjectService
+    AdminPages --> UserService
+    Login --> AuthService["authService"]:::service
+
+    AuthService --> Axios["api.js Axios client + JWT interceptor"]:::service
+    DashboardService --> Axios
+    TaskService --> Axios
+    ProjectService --> Axios
+    UserService --> Axios
+    ReportService --> Axios
+
+    Axios -. "HTTP /api" .-> Express["Express server.js"]:::node
+    Express --> Health["GET /api/health"]:::node
+    Express --> AuthRoutes["/api/auth"]:::node
+    Express --> UserRoutes["/api/users"]:::node
+    Express --> TaskRoutes["/api/tasks"]:::node
+    Express --> ProjectRoutes["/api/projects"]:::node
+    Express --> DashboardRoutes["/api/dashboard"]:::node
+    Express --> ReportRoutes["/api/reports"]:::node
+
+    AuthRoutes --> AuthController["authController"]:::node
+    UserRoutes --> Protect["protect JWT middleware"]:::guard
+    TaskRoutes --> Protect
+    ProjectRoutes --> Protect
+    DashboardRoutes --> Protect
+    ReportRoutes --> Protect
+    UserRoutes --> RequireRole["requireRole"]:::guard
+    ProjectRoutes --> RequireRole
+    DashboardRoutes --> RequireRole
+    TaskRoutes --> ReadOnlyGuard["blockReadOnlyMutations"]:::guard
+
+    UserRoutes --> UserController["userController"]:::node
+    TaskRoutes --> TaskController["taskController"]:::node
+    ProjectRoutes --> ProjectController["projectController"]:::node
+    DashboardRoutes --> DashboardController["dashboardController"]:::node
+    ReportRoutes --> ReportController["reportController + ExcelJS"]:::node
+
+    AuthController --> DbPool["config/db.js mssql pool"]:::node
+    UserController --> DbPool
+    TaskController --> DbPool
+    ProjectController --> DbPool
+    DashboardController --> DbPool
+    ReportController --> DbPool
+    Protect --> DbPool
+    Health --> DbPool
+    DbPool --> SqlServer[("Microsoft SQL Server")]:::db
+
+    Scripts["syncKnownUsers / migrateLegacyRemarks / migrateToAzure"]:::script --> DbPool
+              </pre>
+            </div>
+          </section>
+
+          <section id="routes">
+            <div class="section-head">
+              <h2>Frontend Routes</h2>
+              <span class="tag">React Router</span>
+            </div>
+            <div class="diagram-wrap">
+              <pre class="mermaid">
+graph LR
+    App["App.jsx"] --> Public["/login"]
+    App --> Protected["ProtectedRoute"]
+    Protected --> Shell["AuthenticatedLayout"]
+    Shell --> Home["/ -> HomeRedirect"]
+    Shell --> UserDashboard["/dashboard -> UserDashboard"]
+    Shell --> Kanban["/kanban -> Kanban"]
+    Shell --> Tasks["/tasks -> Tasks"]
+    Shell --> AdminRoute["AdminRoute"]
+    AdminRoute --> AdminDashboard["/admin/dashboard -> AdminDashboard"]
+    AdminRoute --> Users["/admin/users -> Users"]
+    AdminRoute --> Projects["/admin/projects -> Projects"]
+    App --> Fallback["* -> /"]
+
+    Reports["Reports.jsx"] -. "not mounted in App.jsx" .-> App
+    Graphify["Graphify.jsx"] -. "empty and not mounted" .-> App
+              </pre>
+            </div>
+          </section>
+
+          <section id="composition">
+            <div class="section-head">
+              <h2>Frontend Composition</h2>
+              <span class="tag">components and services</span>
+            </div>
+            <div class="diagram-wrap">
+              <pre class="mermaid">
+graph TD
+    Main["main.jsx"] --> ThemeContext["ThemeContext"]
+    Main --> AuthContext["AuthContext"]
+    Main --> App["App.jsx"]
+    AuthContext --> AuthService["authService"]
+    App --> Sidebar["Sidebar"]
+    App --> Navbar["Navbar"]
+    App --> ProtectedRoute["ProtectedRoute"]
+    App --> AdminRoute["AdminRoute"]
+
+    DashboardWrappers["AdminDashboard / UserDashboard"] --> DashboardView["DashboardView"]
+    DashboardView --> StatCard["StatCard"]
+    DashboardView --> DashboardSkeleton["DashboardSkeletonLoader"]
+    DashboardView --> Recharts["Recharts charts"]
+    DashboardView --> DashboardService["dashboardService"]
+
+    Kanban["Kanban"] --> KanbanBoard["KanbanBoard"]
+    KanbanBoard --> KanbanColumn["KanbanColumn"]
+    KanbanColumn --> TaskCard["TaskCard"]
+    Kanban --> TaskModal["TaskModal"]
+    Kanban --> TaskService["taskService"]
+    Kanban --> ProjectService["projectService"]
+    Kanban --> UserService["userService"]
+
+    Tasks["Tasks"] --> FilterBar["FilterBar"]
+    Tasks --> DataTable["DataTable"]
+    Tasks --> TaskModal
+    Tasks --> ConfirmModal["ConfirmModal"]
+    Tasks --> ReportService["reportService"]
+    TaskModal --> TaskForm["TaskForm"]
+    TaskModal --> RemarksFilter["RemarksFilter"]
+    RemarksFilter --> Calendar["ui/calendar"]
+
+    Users["Users"] --> DataTable
+    Users --> ConfirmModal
+    Users --> UserService
+    Projects["Projects"] --> DataTable
+    Projects --> ConfirmModal
+    Projects --> ProjectService
+
+    AuthService --> Api["api.js"]
+    DashboardService --> Api
+    TaskService --> Api
+    ProjectService --> Api
+    UserService --> Api
+    ReportService --> Api
+              </pre>
+            </div>
+          </section>
+
+          <section id="backend">
+            <div class="section-head">
+              <h2>Backend Routes</h2>
+              <span class="tag">Express API</span>
+            </div>
+            <div class="diagram-wrap">
+              <pre class="mermaid">
+graph TD
+    Server["server.js"] --> AuthRoutes["authRoutes"]
+    Server --> UserRoutes["userRoutes"]
+    Server --> TaskRoutes["taskRoutes"]
+    Server --> ProjectRoutes["projectRoutes"]
+    Server --> DashboardRoutes["dashboardRoutes"]
+    Server --> ReportRoutes["reportRoutes"]
+
+    AuthRoutes -->|"POST /login, /register"| AuthController["authController"]
+    AuthRoutes -->|"GET /me, POST /logout"| Protect["protect"] --> AuthController
+
+    UserRoutes --> Protect
+    UserRoutes -->|"admin/presenter reads; admin writes"| RequireRole["requireRole"]
+    UserRoutes --> UserController["userController"]
+
+    TaskRoutes --> Protect
+    TaskRoutes --> ReadOnly["blockReadOnlyMutations"]
+    TaskRoutes -->|"CRUD, status, priority, remarks, comments"| TaskController["taskController"]
+
+    ProjectRoutes --> Protect
+    ProjectRoutes -->|"admin writes"| RequireRole
+    ProjectRoutes --> ProjectController["projectController"]
+
+    DashboardRoutes --> Protect
+    DashboardRoutes -->|"admin endpoint requires admin"| RequireRole
+    DashboardRoutes --> DashboardController["dashboardController"]
+
+    ReportRoutes --> Protect
+    ReportRoutes -->|"GET /export"| ReportController["reportController"]
+
+    AuthController --> Db["getPool + mssql"]
+    UserController --> Db
+    TaskController --> Db
+    ProjectController --> Db
+    DashboardController --> Db
+    ReportController --> Db
+              </pre>
+            </div>
+          </section>
+
+          <section id="database">
+            <div class="section-head">
+              <h2>Database Entities</h2>
+              <span class="tag">SQL Server</span>
+            </div>
+            <div class="diagram-wrap">
+              <pre class="mermaid">
+erDiagram
+    Roles ||--o{ Users : assigns
+    Users ||--o{ Projects : creates
+    Projects ||--o{ ProjectMembers : has
+    Users ||--o{ ProjectMembers : joins
+    Projects ||--o{ Tasks : groups
+    Users ||--o{ Tasks : assigned_to
+    Users ||--o{ Tasks : creates
+    Tasks ||--o{ TaskComments : has
+    Users ||--o{ TaskComments : writes
+    Tasks ||--o{ TaskRemarks : has
+    Users ||--o{ TaskRemarks : writes
+    Tasks ||--o{ TaskHistory : records
+    Users ||--o{ TaskHistory : changes
+    Users ||--o{ ExcelImports : imports
+
+    Roles {
+        int role_id PK
+        nvarchar role_name
+    }
+    Users {
+        int user_id PK
+        nvarchar full_name
+        nvarchar email
+        int role_id FK
+        nvarchar status
+    }
+    Projects {
+        int project_id PK
+        nvarchar project_name
+        int created_by FK
+        nvarchar status
+    }
+    ProjectMembers {
+        int project_member_id PK
+        int project_id FK
+        int user_id FK
+    }
+    Tasks {
+        int task_id PK
+        nvarchar task_title
+        int assigned_user_id FK
+        int project_id FK
+        int created_by FK
+        nvarchar status
+        nvarchar priority
+    }
+    TaskComments {
+        int comment_id PK
+        int task_id FK
+        int user_id FK
+    }
+    TaskRemarks {
+        int remark_id PK
+        int task_id FK
+        int user_id FK
+        date remark_date
+    }
+    TaskHistory {
+        int history_id PK
+        int task_id FK
+        int changed_by FK
+    }
+    ExcelImports {
+        int import_id PK
+        int imported_by FK
+    }
+              </pre>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+      mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: "loose",
+        theme: "base",
+        themeVariables: {
+          primaryColor: "#ffffff",
+          primaryTextColor: "#111827",
+          primaryBorderColor: "#d7dde6",
+          lineColor: "#6b7280",
+          secondaryColor: "#f1f7f8",
+          tertiaryColor: "#fff7f4",
+          fontFamily:
+            "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
+        }
+      });
+    </script>
+  </body>
+</html>

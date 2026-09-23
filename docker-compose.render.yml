@@ -1,0 +1,16 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.render
+      args:
+        VITE_API_URL: /api
+        VITE_SOCKET_URL:
+        VITE_DEMO_MODE: ${VITE_DEMO_MODE:-false}
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: zira-network

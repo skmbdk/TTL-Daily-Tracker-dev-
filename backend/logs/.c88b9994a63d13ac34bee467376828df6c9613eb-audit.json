@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "/Users/apple/Desktop/TTL_Tracker_Office-main/backend/logs/.c88b9994a63d13ac34bee467376828df6c9613eb-audit.json",
+    "files": [
+        {
+            "date": 1790001359203,
+            "name": "/Users/apple/Desktop/TTL_Tracker_Office-main/backend/logs/error-2026-09-21.log",
+            "hash": "3f8ab49941c3a6f6b9379dda07e104f4e972f2d640c603e12bdd4ac338487350"
+        },
+        {
+            "date": 1790021934072,
+            "name": "/Users/apple/Desktop/TTL_Tracker_Office-main/backend/logs/error-2026-09-22.log",
+            "hash": "ab43f54005f23f3e3c1db31e44f5d2602877035099ee6142a8508d51fd053365"
+        }
+    ],
+    "hashType": "sha256"
+}

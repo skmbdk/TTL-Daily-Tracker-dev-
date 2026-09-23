@@ -1,0 +1,358 @@
+{
+  "/Users/apple/Desktop/zira 2.0/database/seed.sql": {
+    "mtime": 1777101680.764113,
+    "hash": "11973ba3f2be7a6baf2a10cb8cc67e01"
+  },
+  "/Users/apple/Desktop/zira 2.0/database/notifications.sql": {
+    "mtime": 1778533234.9474056,
+    "hash": "766e3d94bc661716f35773ba29763b1b"
+  },
+  "/Users/apple/Desktop/zira 2.0/database/schema.sql": {
+    "mtime": 1777235186.8683405,
+    "hash": "c0ee6cc171f56919d3d20923ed3cf0e9"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/tailwind.config.js": {
+    "mtime": 1777101100.0292547,
+    "hash": "07c154ca3423d7faf1849ec2797f0e49"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/vite.config.js": {
+    "mtime": 1777102965.5397573,
+    "hash": "e7de56248c9dd438dc2ed62b5c2c9a54"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/postcss.config.js": {
+    "mtime": 1777101100.029556,
+    "hash": "442ee6f3f950b33482963958f133b78c"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/main.jsx": {
+    "mtime": 1777139615.5358465,
+    "hash": "294550d3c68699b1530b94b9e9611a64"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/App.jsx": {
+    "mtime": 1778423515.818318,
+    "hash": "8b79f29a6df07e6cba73912995a46aec"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/context/AuthContext.jsx": {
+    "mtime": 1778533373.4339604,
+    "hash": "3fb253a7aca53dc17cd408f8dcc29878"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/context/ThemeContext.jsx": {
+    "mtime": 1777139615.5320258,
+    "hash": "52b089f9dbd3afee999e4952f73a1ab4"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/constants/taskOptions.js": {
+    "mtime": 1777197320.5030322,
+    "hash": "8206c5fd98a4b0f5a8d29bac3639a781"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/DataTable.jsx": {
+    "mtime": 1778445153.8607943,
+    "hash": "8ca7f7910094f1e67414d44446b4c984"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/TaskModal.jsx": {
+    "mtime": 1778345303.0871518,
+    "hash": "85f68455c644f87831e204eff2f64cc0"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/KanbanColumn.jsx": {
+    "mtime": 1778447226.8033137,
+    "hash": "fe0901917dd0cb4edf2b679aa8bad261"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/TaskForm.jsx": {
+    "mtime": 1777235205.454606,
+    "hash": "9be38aa614fc115dacc154600b05a250"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/Sidebar.jsx": {
+    "mtime": 1778350068.726654,
+    "hash": "d22dd9532cbc5ca5bfbf0cb2ff4a97aa"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/SkeletonLoader.jsx": {
+    "mtime": 1778436712.4390414,
+    "hash": "591e4aa3935acab8a3f82228e73db270"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/RemarksFilter.jsx": {
+    "mtime": 1777243027.6550674,
+    "hash": "0cecdfc6103296c3c1d8e11d5b2d3291"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/TaskCard.jsx": {
+    "mtime": 1778447226.7883584,
+    "hash": "3287d12cb9d09d34e4aa5960fbf81c79"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/ScrollProgressBar.jsx": {
+    "mtime": 1778259775.1136808,
+    "hash": "66c6fb7f447b2a2b08341a9f7720f18f"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/Navbar.jsx": {
+    "mtime": 1778533439.0393505,
+    "hash": "2a25a356af61452d39ffdfb4a83f36bb"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/MobileNav.jsx": {
+    "mtime": 1778442366.946024,
+    "hash": "d4cb7db697ce5dbde807e7874fb1466e"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/ConfirmModal.jsx": {
+    "mtime": 1778450461.5375724,
+    "hash": "8471f79e500e34036554a8d148089b26"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/StatCard.jsx": {
+    "mtime": 1777101204.801513,
+    "hash": "75935b66252798c1a6a944541ea4da82"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/FilterBar.jsx": {
+    "mtime": 1778443284.8558073,
+    "hash": "26a6d7d3a4983680c2e1557efabca4bc"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/KanbanBoard.jsx": {
+    "mtime": 1778447226.8375587,
+    "hash": "d4b961912fba1c5202b369bfea760fe9"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/AnimatedSection.jsx": {
+    "mtime": 1778332183.653597,
+    "hash": "b6b5e69b96b1a70188a0fad608203a88"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/ui/avatar.jsx": {
+    "mtime": 1778346513.5085027,
+    "hash": "769f293cfc67ce94d1a8233a067af98b"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/ui/calendar.jsx": {
+    "mtime": 1777242626.8702118,
+    "hash": "2a217914c75511a1fdb24e8ab30a2a73"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/notifications/NotificationDropdown.jsx": {
+    "mtime": 1778535585.5709097,
+    "hash": "92753888dbbe87e427a66a5606ddcc5e"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/components/notifications/NotificationBell.jsx": {
+    "mtime": 1778535570.0114455,
+    "hash": "5ac5d99f0189cd8e7845bdbe8e7069dc"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/lib/utils.js": {
+    "mtime": 1777239643.9512029,
+    "hash": "cb4f9fd8b5ad9d8ce6012628f6265c9c"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Users.jsx": {
+    "mtime": 1778450449.9778144,
+    "hash": "774fd48e0a4221b398b0396236e73e88"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/DashboardView.jsx": {
+    "mtime": 1778451880.9963017,
+    "hash": "912c4415c43238ecae897f1ac37ad916"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/AdminDashboard.jsx": {
+    "mtime": 1777101378.126239,
+    "hash": "4cee60cd2f92c0dade9a1ce2fa21925a"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/UserDashboard.jsx": {
+    "mtime": 1777142843.3844066,
+    "hash": "632d4ad844ee6fcba59e80794e7616b9"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Login.jsx": {
+    "mtime": 1778481305.8091824,
+    "hash": "989a4679f071247a9ba992367c1fd880"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Reports.jsx": {
+    "mtime": 1777141619.721589,
+    "hash": "07a5af4dbf7bbd49c28b6c79a6bc86c4"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Kanban.jsx": {
+    "mtime": 1778357836.265568,
+    "hash": "42773e60b54fe64e69400e3bac130089"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Graphify.jsx": {
+    "mtime": 1777325230.019894,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Projects.jsx": {
+    "mtime": 1778450444.4512093,
+    "hash": "85f1368a7a23d7dc59d649bc8095e18b"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/pages/Tasks.jsx": {
+    "mtime": 1778445160.6328657,
+    "hash": "b009bab0da388b308c8878df633978d0"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/routes/AdminRoute.jsx": {
+    "mtime": 1777101141.2378547,
+    "hash": "6e8577e943b945460d70ca0b4208c47d"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/routes/ProtectedRoute.jsx": {
+    "mtime": 1778260500.0143266,
+    "hash": "202cb8d50b8769b111dab314f11b4066"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/userService.js": {
+    "mtime": 1777103985.6771553,
+    "hash": "ace4ec7aaf60a143779d77f6d9457d09"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/dashboardService.js": {
+    "mtime": 1778260754.207548,
+    "hash": "baec62d9d573fccf35e9fb999e83c92c"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/socket.js": {
+    "mtime": 1778533359.975077,
+    "hash": "d36e3df8caf1868732516ca4b8781ab2"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/authService.js": {
+    "mtime": 1778261734.967183,
+    "hash": "7b2070af04ecbd3be23265ff57dc7dce"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/taskService.js": {
+    "mtime": 1777237768.903774,
+    "hash": "e8b2bf70a23c781ec4d852c6af51d9ac"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/api.js": {
+    "mtime": 1778002111.831485,
+    "hash": "1bcadbe32a6eca1e1a963e3e3650f75a"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/reportService.js": {
+    "mtime": 1777103985.6814651,
+    "hash": "6a56bf1b60f327f9fd7994c819badbfb"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/notificationService.js": {
+    "mtime": 1778533365.2980278,
+    "hash": "42df55e519263dc3bc0f81dff6dda04f"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/src/services/projectService.js": {
+    "mtime": 1777103985.678225,
+    "hash": "590f38a81b4884061fee440a30ded3e4"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/server.js": {
+    "mtime": 1778533303.0771065,
+    "hash": "146c98f0e8a0804b0e09b63206b2e288"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/socket.js": {
+    "mtime": 1778533255.4327655,
+    "hash": "0be9a46518f1fe8687d19f3414cb9917"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/middleware/authMiddleware.js": {
+    "mtime": 1778260735.3748133,
+    "hash": "01697e3be387ef50d799235e6cf0c227"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/middleware/readOnlyMiddleware.js": {
+    "mtime": 1777142499.7399766,
+    "hash": "43a9063c121e78ab991178cbd2f101d7"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/middleware/roleMiddleware.js": {
+    "mtime": 1777100726.0057592,
+    "hash": "108d9389829f76b57bd0e7aa3bc40afd"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/config/db.js": {
+    "mtime": 1778519813.4451153,
+    "hash": "6cb0404ed54087e89f7028bfb8d67bd5"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/utils/asyncHandler.js": {
+    "mtime": 1777100789.0823004,
+    "hash": "db245f6e9d70a0ea32aa9a02fb731129"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/utils/activeUsers.js": {
+    "mtime": 1778261720.1976733,
+    "hash": "f99607b312d9989469fe28004618b93f"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/utils/generateToken.js": {
+    "mtime": 1778260717.489596,
+    "hash": "b9379ad0ab74506447db1a8ec060b193"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/scripts/syncKnownUsers.js": {
+    "mtime": 1777152304.4148653,
+    "hash": "2a289f844df72e5433586eea6f2c4951"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/scripts/migrateLegacyRemarks.js": {
+    "mtime": 1777317084.842977,
+    "hash": "d402b5e32db7afe4e8be8323852b3cc7"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/scripts/migrateToAzure.js": {
+    "mtime": 1777200392.7010834,
+    "hash": "38919efa70a4489ab2ed6dda2b4ace35"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/projectController.js": {
+    "mtime": 1777324433.9335463,
+    "hash": "08d99b74840b988cdc9d1832b15b5adf"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/reportController.js": {
+    "mtime": 1777316519.8560774,
+    "hash": "690414d723b62383cfdb199d14b8fc6f"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/notificationController.js": {
+    "mtime": 1778533288.8495193,
+    "hash": "643d896b80c5bccc819f5e84f0a371d0"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/dashboardController.js": {
+    "mtime": 1778260743.0842576,
+    "hash": "6aaa2207ff2dcd3aaab89440d08b4c82"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/userController.js": {
+    "mtime": 1777138623.7305136,
+    "hash": "50e61a2cfaf91ad82e8e24872b6f31b1"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/taskController.js": {
+    "mtime": 1778533340.9438632,
+    "hash": "6e32086219ea731c50045803a0b5953f"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/controllers/authController.js": {
+    "mtime": 1778261725.2775083,
+    "hash": "d5a27b415373744ce598ab3c81b24003"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/projectRoutes.js": {
+    "mtime": 1777101053.1806493,
+    "hash": "1d9da585e153565b8d5253264f773ca1"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/authRoutes.js": {
+    "mtime": 1778261729.7781155,
+    "hash": "dc135d3a43656832c7e63bbc365629ac"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/notificationRoutes.js": {
+    "mtime": 1778533293.5164497,
+    "hash": "054cac80c3f82e7ce0c1f550a11b2bc9"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/userRoutes.js": {
+    "mtime": 1777142828.0194516,
+    "hash": "34dd48fd4ab37b7e67843c7a3bb53930"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/reportRoutes.js": {
+    "mtime": 1777101053.1815841,
+    "hash": "6b7e9aa5b7045a40f2f9fa9b99a88cfd"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/dashboardRoutes.js": {
+    "mtime": 1778260748.1799529,
+    "hash": "e12d23aa8d4013e6fd41e578abce572e"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/routes/taskRoutes.js": {
+    "mtime": 1777237755.2523038,
+    "hash": "12b459e15d88792f1e9a026a31e01ed7"
+  },
+  "/Users/apple/Desktop/zira 2.0/backend/src/services/notificationService.js": {
+    "mtime": 1778533277.1628504,
+    "hash": "1778fc777a00f425187955f1b29e8b54"
+  },
+  "/Users/apple/Desktop/zira 2.0/AZURE_DEPLOYMENT.md": {
+    "mtime": 1778510097.1989863,
+    "hash": "d7d1becf56bfa049a8d06e8ff4a571df"
+  },
+  "/Users/apple/Desktop/zira 2.0/docker-compose.dev.yml": {
+    "mtime": 1778533490.3411658,
+    "hash": "0848ab04bd5455798c64122720de3dfc"
+  },
+  "/Users/apple/Desktop/zira 2.0/README.md": {
+    "mtime": 1778524155.4716973,
+    "hash": "7105fdd09c067990bd700ab6b60423ad"
+  },
+  "/Users/apple/Desktop/zira 2.0/docker-compose.yml": {
+    "mtime": 1778533483.3099308,
+    "hash": "69ef8e001191a1d0b982c16d74dcf1ef"
+  },
+  "/Users/apple/Desktop/zira 2.0/temp/dashboard-chart-preview.html": {
+    "mtime": 1777234221.6840663,
+    "hash": "add8c53c5fd7fc892f4a72f00b10b92c"
+  },
+  "/Users/apple/Desktop/zira 2.0/temp/risk-matrix-preview.html": {
+    "mtime": 1777228006.1564193,
+    "hash": "d63058b4584a679fcb091ce14345ed68"
+  },
+  "/Users/apple/Desktop/zira 2.0/frontend/index.html": {
+    "mtime": 1777673689.9474237,
+    "hash": "02d7aa941d5b185b902192368d9b22ee"
+  },
+  "/Users/apple/Desktop/zira 2.0/app architecture/ARCHITECTURE.md": {
+    "mtime": 1777658604.1946366,
+    "hash": "011aa8bd6b91b2e0a46aac6a48f83d11"
+  },
+  "/Users/apple/Desktop/zira 2.0/app architecture/graphify-view.html": {
+    "mtime": 1777658757.1541696,
+    "hash": "ed444f28e8cfdd36f842e255a9d2b449"
+  }
+}
