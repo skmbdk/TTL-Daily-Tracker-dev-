@@ -202,7 +202,8 @@ export const createProject = asyncHandler(async (req, res) => {
   try {
     await client.query('BEGIN');
 
-    const parsedParentId = parent_project_id ? Number(parent_project_id) : null;
+    const numParentId = parent_project_id !== undefined && parent_project_id !== null && parent_project_id !== '' ? Number(parent_project_id) : null;
+    const parsedParentId = (numParentId && !isNaN(numParentId) && numParentId > 0) ? numParentId : null;
 
     const projectResult = await client.query(
       `
@@ -210,19 +211,38 @@ export const createProject = asyncHandler(async (req, res) => {
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *
       `,
-      [project_name, description || null, parsedParentId, nullableDate(start_date), nullableDate(end_date), status, req.user.user_id]
+      [project_name, description || null, parsedParentId, nullableDate(start_date), nullableDate(end_date), status, req.user?.user_id || null]
     );
 
     const project = projectResult.rows[0];
 
-    for (const memberId of member_ids) {
+    const cleanMemberIds = Array.isArray(member_ids)
+      ? [...new Set(member_ids.map(Number).filter((n) => !isNaN(n) && n > 0))]
+      : [];
+
+    for (const memberId of cleanMemberIds) {
       await client.query(
         `
           INSERT INTO ProjectMembers (project_id, user_id, role_in_project)
-          VALUES ($1, $2, $3)
-          ON CONFLICT (project_id, user_id) DO NOTHING
+          SELECT $1, $2, $3
+          WHERE NOT EXISTS (
+            SELECT 1 FROM ProjectMembers WHERE project_id = $1 AND user_id = $2
+          )
         `,
         [project.project_id, memberId, 'Member']
+      );
+    }
+
+    if (req.user?.user_id) {
+      await client.query(
+        `
+          INSERT INTO ProjectMembers (project_id, user_id, role_in_project)
+          SELECT $1, $2, $3
+          WHERE NOT EXISTS (
+            SELECT 1 FROM ProjectMembers WHERE project_id = $1 AND user_id = $2
+          )
+        `,
+        [project.project_id, req.user.user_id, 'Owner']
       );
     }
 
@@ -244,7 +264,8 @@ export const updateProject = asyncHandler(async (req, res) => {
   try {
     await client.query('BEGIN');
 
-    const parsedParentId = parent_project_id === null || parent_project_id === '' ? null : Number(parent_project_id);
+    const numParentId = parent_project_id !== undefined && parent_project_id !== null && parent_project_id !== '' ? Number(parent_project_id) : null;
+    const parsedParentId = (numParentId && !isNaN(numParentId) && numParentId > 0) ? numParentId : null;
 
     const result = await client.query(
       `
@@ -278,12 +299,15 @@ export const updateProject = asyncHandler(async (req, res) => {
     if (Array.isArray(member_ids)) {
       await client.query('DELETE FROM ProjectMembers WHERE project_id = $1', [req.params.id]);
 
-      for (const memberId of member_ids) {
+      const cleanMemberIds = [...new Set(member_ids.map(Number).filter((n) => !isNaN(n) && n > 0))];
+      for (const memberId of cleanMemberIds) {
         await client.query(
           `
             INSERT INTO ProjectMembers (project_id, user_id, role_in_project)
-            VALUES ($1, $2, $3)
-            ON CONFLICT (project_id, user_id) DO NOTHING
+            SELECT $1, $2, $3
+            WHERE NOT EXISTS (
+              SELECT 1 FROM ProjectMembers WHERE project_id = $1 AND user_id = $2
+            )
           `,
           [req.params.id, memberId, 'Member']
         );

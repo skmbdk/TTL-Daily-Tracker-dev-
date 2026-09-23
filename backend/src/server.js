@@ -109,15 +109,15 @@ app.use((req, res) => {
 
 app.use((error, _req, res, _next) => {
   const statusCode = error.statusCode || 500;
-  const message = statusCode === 500 ? 'Internal server error.' : error.message;
+  const message = error.message || 'Internal server error.';
 
   if (process.env.NODE_ENV !== 'test') {
     logger.error(`[ERROR_HANDLER] Status ${statusCode}: ${error.message}`, { stack: error.stack });
   }
 
   res.status(statusCode).json({
-    message,
-    detail: process.env.NODE_ENV === 'production' ? undefined : error.message
+    message: statusCode === 500 && process.env.NODE_ENV === 'production' ? 'Internal server error.' : message,
+    detail: error.message
   });
 });
 
