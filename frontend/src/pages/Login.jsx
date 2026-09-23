@@ -45,7 +45,7 @@ const Login = () => {
       <div className={`absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] ${isLight ? 'opacity-70' : 'opacity-20'}`} />
 
       {/* Ambient Radial Gradient Accent */}
-      <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full blur-[140px] pointer-events-none ${isLight ? 'bg-blue-100/40' : 'bg-blue-600/10'}`} />
+      <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full blur-[140px] pointer-events-none ${isLight ? 'bg-blue-100/40' : 'bg-white/[0.015]'}`} />
 
       {/* Theme Toggle */}
       <button
