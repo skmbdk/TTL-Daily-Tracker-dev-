@@ -970,7 +970,11 @@ export const updateTask = asyncHandler(async (req, res) => {
     ]
   );
 
-  if ((body.status && body.status !== existing.status) || (body.priority && body.priority !== existing.priority)) {
+  if ((body.status && body.status !== existing.status) || (body.priority && body.priority !== existing.priority) || assignmentChanged) {
+    const changeDesc = assignmentChanged
+      ? `Task reassigned from '${existing.employee_name || 'Unassigned'}' to '${employeeName || 'Unassigned'}'`
+      : 'Task updated';
+
     await recordHistory(pool, {
       taskId: req.params.id,
       changedBy: req.user.user_id,
@@ -978,7 +982,7 @@ export const updateTask = asyncHandler(async (req, res) => {
       newStatus: body.status ?? existing.status,
       oldPriority: existing.priority,
       newPriority: body.priority ?? existing.priority,
-      description: 'Task updated'
+      description: changeDesc
     });
   }
 
