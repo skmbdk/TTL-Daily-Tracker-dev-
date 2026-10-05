@@ -124,6 +124,7 @@ import { getPool } from '../config/db.js';
 import { generateToken } from '../utils/generateToken.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { markActive, markInactive } from '../utils/activeUsers.js';
+import { clearUserCache } from '../middleware/authMiddleware.js';
 
 export const login = asyncHandler(async (req, res) => {
   const { email, identifier, password } = req.body;
@@ -136,8 +137,8 @@ export const login = asyncHandler(async (req, res) => {
   const pool = await getPool();
   const result = await pool.query(
     `
-      SELECT u.user_id, u.full_name, u.email, u.password_hash, u.department,
-             u.designation, u.status, r.role_name
+      SELECT u.user_id, u.full_name, u.display_name, u.email, u.password_hash, u.department,
+             u.designation, u.status, u.can_import_excel, r.role_name
       FROM Users u
       INNER JOIN Roles r ON r.role_id = u.role_id
       WHERE (LOWER(u.email) = $1 OR LOWER(u.full_name) = $1)
@@ -224,6 +225,39 @@ export const me = asyncHandler(async (req, res) => {
 
 export const heartbeat = asyncHandler(async (_req, res) => {
   return res.json({ status: 'active' });
+});
+
+export const updateProfile = asyncHandler(async (req, res) => {
+  const { display_name, full_name } = req.body;
+  const userId = req.user?.user_id;
+  const newDisplayName = String(display_name || full_name || '').trim();
+
+  if (!newDisplayName) {
+    return res.status(400).json({ message: 'Display name is required.' });
+  }
+
+  const pool = await getPool();
+  const result = await pool.query(
+    `
+      UPDATE Users
+      SET display_name = $1, updated_at = CURRENT_TIMESTAMP
+      WHERE user_id = $2
+      RETURNING user_id, full_name, display_name, email, department, designation, status
+    `,
+    [newDisplayName, userId]
+  );
+
+  if (!result.rows.length) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  clearUserCache(userId);
+
+  const updatedUser = {
+    ...req.user,
+    display_name: result.rows[0].display_name
+  };
+  return res.json({ user: updatedUser, message: 'Display name updated successfully.' });
 });
 
 export const logout = asyncHandler(async (req, res) => {

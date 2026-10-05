@@ -92,6 +92,15 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
+  const updateUser = (updatedFields) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const updated = { ...prev, ...updatedFields };
+      sessionStorage.setItem('zira_user', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const clearSession = () => {
     disconnectSocket();
     sessionStorage.removeItem('zira_token');
@@ -120,8 +129,10 @@ export const AuthProvider = ({ children }) => {
       isAdmin: user?.role_name === 'admin',
       isPresenter: user?.role_name === 'presenter' || user?.session_mode === 'presenter',
       isReadOnly: Boolean(user?.read_only || user?.role_name === 'presenter' || user?.session_mode === 'presenter'),
+      canImportExcel: Boolean(user?.role_name === 'admin' || user?.can_import_excel),
       login,
-      logout
+      logout,
+      updateUser
     }),
     [token, user, loading]
   );

@@ -38,7 +38,7 @@ const KanbanColumn = ({ status, tasks, users, readOnly = false, activeTaskId, co
           ? 'z-20 border-indigo-500/60 shadow-xl ring-1 ring-indigo-500/20'
           : isLight
           ? 'border-slate-200/80 bg-slate-50/70 shadow-xs'
-          : 'border-white/[0.08] bg-[#121215] shadow-sm'
+          : 'border-[var(--border-soft)] bg-[var(--panel)] shadow-sm'
       )}
       onClick={() => {
         if (isCollapsed) {
@@ -52,7 +52,7 @@ const KanbanColumn = ({ status, tasks, users, readOnly = false, activeTaskId, co
         'flex items-center justify-between border-b px-4 py-3.5 transition-colors h-14 shrink-0 overflow-hidden',
         isLight
           ? 'border-slate-200/60 bg-white'
-          : 'border-white/[0.08] bg-[#18181b]'
+          : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'
       )}>
         {!isCollapsed ? (
           <motion.div

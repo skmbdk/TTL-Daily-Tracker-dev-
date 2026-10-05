@@ -8,7 +8,7 @@ const ProtectedRoute = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#09090b] p-6">
+      <div className="min-h-screen bg-[var(--app-bg)] p-6">
         <div className="mx-auto max-w-7xl">
           <Skeleton className="mb-8 h-16 w-64 rounded-lg" />
           <DashboardSkeletonLoader />

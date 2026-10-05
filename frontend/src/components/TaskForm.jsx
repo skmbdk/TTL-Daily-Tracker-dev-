@@ -266,7 +266,7 @@ const TaskForm = ({
               <div className={`pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 transition-all duration-200 absolute left-0 top-full mt-1.5 z-50 w-72 sm:w-80 rounded-xl border p-3.5 shadow-2xl backdrop-blur-md text-xs space-y-2 ${
                 isLight
                   ? 'border-slate-200 bg-white/95 text-slate-800 shadow-slate-300/40'
-                  : 'border-white/[0.08] bg-[#18181b] text-zinc-100 shadow-black/60'
+                  : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-zinc-100 shadow-black/60'
               }`}>
                 <div className={`flex items-center justify-between border-b pb-2 ${isLight ? 'border-slate-100' : 'border-white/[0.08]'}`}>
                   <span className={`font-bold ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>Task Weight (Story Points) Guide</span>
@@ -284,7 +284,7 @@ const TaskForm = ({
                         className={`p-2 rounded-lg border flex flex-col gap-1 ${
                           isLight
                             ? 'bg-slate-50/80 border-slate-200/80'
-                            : 'bg-[#141417] border-white/[0.08]'
+                            : 'bg-[var(--input-bg)] border-[var(--border-soft)]'
                         }`}
                       >
                         <div className="flex justify-between items-center font-medium">

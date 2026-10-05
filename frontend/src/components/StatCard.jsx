@@ -22,7 +22,7 @@ export const StatCard = ({
         "group relative flex flex-col justify-between overflow-hidden rounded-2xl p-5 transition-all duration-200 border",
         isLight
           ? "bg-white border-slate-200/80 shadow-xs hover:border-slate-300 hover:shadow-sm"
-          : "bg-[#121215] border-white/[0.08] hover:border-white/[0.16] shadow-sm",
+          : "bg-[var(--panel)] border-[var(--border-soft)] hover:border-[var(--border-strong)] shadow-sm",
         className
       )}
     >

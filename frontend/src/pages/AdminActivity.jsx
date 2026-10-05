@@ -365,7 +365,7 @@ const AdminActivity = () => {
           'rounded-2xl border p-3.5 transition-all duration-300 backdrop-blur-md space-y-3',
           isLight
             ? 'border-slate-200/80 bg-white/80 shadow-md shadow-slate-200/15'
-            : 'border-white/[0.08] bg-[#141417] shadow-xl shadow-black/30'
+            : 'border-[var(--border-soft)] bg-[var(--panel)] shadow-xl shadow-black/30'
         )}
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -380,7 +380,7 @@ const AdminActivity = () => {
                 'w-full h-10 rounded-full border pl-10 pr-9 text-xs font-medium transition-all duration-200 outline-none placeholder:text-slate-400',
                 isLight
                   ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-2xs'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] placeholder-[var(--text-faint)] focus:border-[var(--border-strong)]'
               )}
               placeholder="Search activity..."
               value={filters.search}
@@ -457,7 +457,7 @@ const AdminActivity = () => {
                       : 'border-cyan-400/50 bg-cyan-500/15 text-cyan-200 font-semibold'
                     : isLight
                     ? 'border-slate-200 bg-slate-50/80 text-slate-700 hover:bg-white hover:border-slate-300'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-300 hover:border-white/20'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] hover:border-[var(--border-strong)]'
                 )}
               >
                 <Calendar size={14} className={filters.customDate ? (isLight ? 'text-cyan-600' : 'text-cyan-400') : 'text-slate-400'} />
@@ -545,7 +545,7 @@ const AdminActivity = () => {
                           'relative px-3 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full border shadow-2xs',
                           isLight
                             ? 'bg-slate-100/90 border-slate-300 text-slate-600'
-                            : 'bg-[#18181b] border-white/20 text-slate-300'
+                            : 'bg-[var(--panel-soft)] border-[var(--border-strong)] text-[var(--text-secondary)]'
                         )}>
                           {dateGroup}
                         </div>
@@ -685,7 +685,7 @@ const AdminActivity = () => {
                           'relative px-3 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full border shadow-2xs',
                           isLight
                             ? 'bg-slate-100/90 border-slate-300 text-slate-600'
-                            : 'bg-[#18181b] border-white/20 text-slate-300'
+                            : 'bg-[var(--panel-soft)] border-[var(--border-strong)] text-[var(--text-secondary)]'
                         )}>
                           {dateGroup}
                         </div>
@@ -846,7 +846,7 @@ const ActivitySelect = ({ icon: Icon, label, value, options, onChange, onClear, 
               : 'border-white/20 bg-white/[0.08] text-zinc-100 font-semibold ring-1 ring-white/10'
             : isLight
             ? 'border-slate-200 bg-slate-50/80 text-slate-700 hover:bg-white hover:border-slate-300'
-            : 'border-white/[0.08] bg-[#141417] text-zinc-300 hover:border-white/20'
+            : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] hover:border-[var(--border-strong)]'
         )}
       >
         <Icon size={14} className={isSelected ? (isLight ? 'text-indigo-600' : 'text-zinc-200') : 'text-zinc-500'} />
@@ -859,7 +859,7 @@ const ActivitySelect = ({ icon: Icon, label, value, options, onChange, onClear, 
             <option
               key={opt.value}
               value={opt.value}
-              className={isLight ? 'bg-white text-slate-800' : 'bg-[#18181b] text-zinc-100'}
+              className={isLight ? 'bg-white text-slate-800' : 'bg-[var(--panel-soft)] text-[var(--text-primary)]'}
             >
               {opt.label}
             </option>

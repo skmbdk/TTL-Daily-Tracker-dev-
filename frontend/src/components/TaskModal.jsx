@@ -344,7 +344,7 @@ const TaskModal = ({ open, task, users, projects, isAdmin, readOnly = false, onC
                   <div className="space-y-3">
                     {paginatedRemarks.length ? (
                       paginatedRemarks.map((item) => (
-                        <article key={item.remark_id} className="group relative rounded-lg border border-white/[0.08] bg-[#141417] p-4">
+                        <article key={item.remark_id} className="group relative rounded-lg border border-[var(--border-soft)] bg-[var(--panel-soft)] p-4">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <p className="font-semibold text-cyan-200">{formatDateOnly(item.remark_date)}</p>
                             <div className="flex items-center gap-2">

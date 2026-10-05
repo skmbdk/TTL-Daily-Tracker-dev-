@@ -2,7 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import KanbanBoard from '../components/KanbanBoard';
 import KanbanFilterBar, { DUE_DATE_OPTIONS } from '../components/KanbanFilterBar';
+import { FileSpreadsheet } from 'lucide-react';
 import TaskModal from '../components/TaskModal';
+import BulkImportModal from '../components/BulkImportModal';
 import { KanbanBoardSkeletonLoader } from '../components/SkeletonLoader';
 import { TASK_MODULES } from '../constants/taskOptions';
 import { getErrorMessage } from '../services/api';
@@ -26,13 +28,14 @@ const initialFilters = {
 };
 
 const Kanban = () => {
-  const { isAdmin, isReadOnly } = useAuth();
+  const { isAdmin, isReadOnly, canImportExcel } = useAuth();
   const { isLight } = useTheme();
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState(initialFilters);
   const [swimlaneBy, setSwimlaneBy] = useState('None');
@@ -187,6 +190,17 @@ const Kanban = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          {canImportExcel && (
+            <button
+              type="button"
+              className="btn-secondary flex items-center gap-2 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-transparent hover:bg-emerald-100/60 dark:hover:bg-emerald-500/10 hover:border-emerald-500/60 shadow-sm dark:shadow-none transition-colors"
+              onClick={() => setImportModalOpen(true)}
+              title="Import Users, Projects, and Tasks via Excel/CSV"
+            >
+              <FileSpreadsheet size={16} />
+              Import Data
+            </button>
+          )}
           {!isReadOnly ? (
             <button
               className="btn-primary"
@@ -240,6 +254,13 @@ const Kanban = () => {
         readOnly={isReadOnly}
         onClose={() => setModalOpen(false)}
         onSaved={() => load()}
+      />
+
+      <BulkImportModal
+        open={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onImportSuccess={() => load()}
+        initialTab="tasks"
       />
     </div>
   );

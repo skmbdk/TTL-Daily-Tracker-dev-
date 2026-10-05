@@ -128,6 +128,12 @@ export const protect = async (req, res, next) => {
   }
 };
 
+export const clearUserCache = (userId) => {
+  if (userId) {
+    userCache.delete(String(userId));
+  }
+};
+
 const getCachedActiveUser = async (userId) => {
   const cacheKey = String(userId);
   const cached = userCache.get(cacheKey);
@@ -138,8 +144,8 @@ const getCachedActiveUser = async (userId) => {
   const pool = await getPool();
   const result = await pool.query(
     `
-      SELECT u.user_id, u.full_name, u.email, u.department, u.designation, u.status,
-             r.role_name
+      SELECT u.user_id, u.full_name, u.display_name, u.email, u.department, u.designation, u.status,
+             u.can_import_excel, r.role_name
       FROM Users u
       INNER JOIN Roles r ON r.role_id = u.role_id
       WHERE u.user_id = $1 AND u.status = 'Active'

@@ -16,6 +16,7 @@ import {
   Download,
   Edit3,
   ExternalLink,
+  FileSpreadsheet,
   Filter,
   Gauge,
   Plus,
@@ -33,10 +34,13 @@ import toast from 'react-hot-toast';
 import ConfirmModal from '../components/ConfirmModal';
 import DataTable from '../components/DataTable';
 import UserAuditLogModal from '../components/UserAuditLogModal';
+import BulkImportModal from '../components/BulkImportModal';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import { getErrorMessage } from '../services/api';
 import { taskService } from '../services/taskService';
 import { userService } from '../services/userService';
+import { importService } from '../services/importService';
 import clsx from 'clsx';
 
 const emptyUser = {
@@ -45,7 +49,8 @@ const emptyUser = {
   password: '',
   role: 'user',
   designation: '',
-  status: 'Active'
+  status: 'Active',
+  can_import_excel: false
 };
 
 const initialFilters = {
@@ -57,9 +62,11 @@ const initialFilters = {
 
 const Users = () => {
   const { isLight } = useTheme();
+  const { canImportExcel } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [form, setForm] = useState(emptyUser);
   const [editing, setEditing] = useState(null);
   const [deleteUser, setDeleteUser] = useState(null);
@@ -226,7 +233,8 @@ const Users = () => {
       password: '',
       role: user.role_name || 'user',
       designation: user.designation || '',
-      status: user.status || 'Active'
+      status: user.status || 'Active',
+      can_import_excel: Boolean(user.can_import_excel)
     });
     setModalOpen(true);
   };
@@ -238,9 +246,13 @@ const Users = () => {
       if (editing && !payload.password) delete payload.password;
       if (editing) {
         await userService.update(editing.user_id, payload);
+        await importService.toggleUserPermission(editing.user_id, form.can_import_excel);
         toast.success('User updated');
       } else {
-        await userService.create(payload);
+        const created = await userService.create(payload);
+        if (created?.user_id && form.can_import_excel) {
+          await importService.toggleUserPermission(created.user_id, true);
+        }
         toast.success('User created');
       }
       setModalOpen(false);
@@ -390,6 +402,17 @@ const Users = () => {
             <ShieldAlert size={16} />
             Audit Logs
           </button>
+          {canImportExcel && (
+            <button
+              type="button"
+              className="btn-secondary flex items-center gap-2 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-transparent hover:bg-emerald-100/60 dark:hover:bg-emerald-500/10 hover:border-emerald-500/60 shadow-sm dark:shadow-none transition-colors"
+              onClick={() => setImportModalOpen(true)}
+              title="Import Users, Projects, and Tasks via Excel/CSV"
+            >
+              <FileSpreadsheet size={16} />
+              Import Data
+            </button>
+          )}
           <button
             type="button"
             className="btn-secondary flex items-center gap-2"
@@ -418,7 +441,7 @@ const Users = () => {
           'rounded-2xl border p-3.5 backdrop-blur-md transition-all duration-300 space-y-3',
           isLight
             ? 'border-slate-200/80 bg-white/80 shadow-md shadow-slate-200/15'
-            : 'border-white/[0.08] bg-[#141417] shadow-xl shadow-black/30'
+            : 'border-[var(--border-soft)] bg-[var(--panel)] shadow-xl shadow-black/30'
         )}
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -431,7 +454,7 @@ const Users = () => {
                 'w-full rounded-full border py-2 pl-10 pr-9 text-sm transition-all duration-200 focus:outline-none focus:ring-2',
                 isLight
                   ? 'border-slate-200 bg-slate-50/80 text-slate-800 placeholder-slate-400 focus:border-cyan-500 focus:ring-cyan-500/20'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-100 placeholder-zinc-500 focus:border-zinc-700'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] placeholder-[var(--text-faint)] focus:border-[var(--border-strong)]'
               )}
               placeholder="Search users..."
               value={filters.search}
@@ -458,7 +481,7 @@ const Users = () => {
                   'w-full appearance-none rounded-full border py-2 pl-9 pr-8 text-sm transition-all duration-200 focus:outline-none focus:ring-2 cursor-pointer',
                   isLight
                     ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:border-cyan-500 focus:ring-cyan-500/20'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-100 focus:border-zinc-700'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] focus:border-[var(--border-strong)]'
                 )}
                 value={filters.role}
                 onChange={(e) => setFilters((prev) => ({ ...prev, role: e.target.value }))}
@@ -478,7 +501,7 @@ const Users = () => {
                   'w-full appearance-none rounded-full border py-2 pl-9 pr-8 text-sm transition-all duration-200 focus:outline-none focus:ring-2 cursor-pointer',
                   isLight
                     ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:border-cyan-500 focus:ring-cyan-500/20'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-100 focus:border-zinc-700'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] focus:border-[var(--border-strong)]'
                 )}
                 value={filters.status}
                 onChange={(e) => setFilters((prev) => ({ ...prev, status: e.target.value }))}
@@ -499,7 +522,7 @@ const Users = () => {
                     'w-full appearance-none rounded-full border py-2 pl-9 pr-8 text-sm transition-all duration-200 focus:outline-none focus:ring-2 cursor-pointer',
                     isLight
                       ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:border-cyan-500 focus:ring-cyan-500/20'
-                      : 'border-white/[0.08] bg-[#141417] text-zinc-100 focus:border-zinc-700'
+                      : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] focus:border-[var(--border-strong)]'
                   )}
                   value={filters.designation}
                   onChange={(e) => setFilters((prev) => ({ ...prev, designation: e.target.value }))}
@@ -604,6 +627,19 @@ const Users = () => {
                   <option>Inactive</option>
                 </select>
               </label>
+
+              <label className="md:col-span-2 flex items-center justify-between p-3.5 rounded-xl border border-[var(--border-soft)] bg-[var(--input-bg)]">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Excel Data Import Access</span>
+                  <span className="text-xs text-[var(--text-secondary)]">Allow this team member to upload bulk Excel templates (.xlsx)</span>
+                </div>
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500/20 cursor-pointer accent-emerald-500"
+                  checked={Boolean(form.can_import_excel)}
+                  onChange={(e) => setForm({ ...form, can_import_excel: e.target.checked })}
+                />
+              </label>
             </div>
             <div className="mt-5 flex justify-end gap-3">
               <button type="button" className="btn-secondary" onClick={() => setModalOpen(false)}>
@@ -639,6 +675,13 @@ const Users = () => {
       <UserAuditLogModal
         open={auditLogOpen}
         onClose={() => setAuditLogOpen(false)}
+      />
+
+      {/* Bulk Excel Data Import Modal */}
+      <BulkImportModal
+        open={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onImportSuccess={load}
       />
     </div>
   );
@@ -693,7 +736,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
           'w-full max-w-3xl rounded-2xl border p-6 transition-all duration-300 shadow-2xl space-y-6',
           isLight
             ? 'border-slate-200 bg-white text-slate-900'
-            : 'border-white/[0.08] bg-[#18181b] text-zinc-100'
+            : 'border-[var(--border-soft)] bg-[var(--panel)] text-[var(--text-primary)]'
         )}
       >
         {/* Top Header */}
@@ -704,7 +747,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
                 'flex h-12 w-12 items-center justify-center rounded-full border text-base font-semibold transition-colors shrink-0',
                 isLight
                   ? 'border-slate-300 bg-slate-100 text-slate-700'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-200'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
               )}
             >
               {getUserInitials(user.full_name)}
@@ -744,7 +787,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
 
         {/* Workload Stats Row */}
         <div className="grid gap-3 sm:grid-cols-4">
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Assigned Tasks</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black">{metrics.total}</span>
@@ -752,7 +795,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Story Points</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black text-amber-400">{metrics.points}</span>
@@ -760,7 +803,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Completion Rate</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black text-emerald-400">{metrics.rate}%</span>
@@ -768,7 +811,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Overdue Tasks</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className={`text-2xl font-black ${metrics.overdue > 0 ? 'text-rose-400' : ''}`}>{metrics.overdue}</span>
@@ -783,7 +826,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
           {loading ? (
             <div className="py-8 text-center text-sm text-slate-400">Loading tasks workload...</div>
           ) : tasks.length === 0 ? (
-            <div className={`rounded-xl border p-8 text-center text-sm ${isLight ? 'border-slate-200 bg-slate-50 text-slate-500' : 'border-white/[0.08] bg-[#141417] text-zinc-400'}`}>
+            <div className={`rounded-xl border p-8 text-center text-sm ${isLight ? 'border-slate-200 bg-slate-50 text-slate-500' : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-[var(--text-muted)]'}`}>
               No tasks currently assigned to this user.
             </div>
           ) : (
@@ -799,7 +842,7 @@ const UserWorkloadModal = ({ user, onClose, onEditUser }) => {
                     'group flex items-center justify-between rounded-xl border p-3 transition-all cursor-pointer hover:border-cyan-500/50',
                     isLight
                       ? 'border-slate-200 bg-slate-50/80 hover:bg-slate-100'
-                      : 'border-white/[0.08] bg-[#141417] hover:bg-white/[0.05]'
+                      : 'border-[var(--border-soft)] bg-[var(--panel-soft)] hover:bg-[var(--hover-soft)]'
                   )}
                 >
                   <div className="min-w-0 flex-1">

@@ -17,6 +17,7 @@ import {
   Download,
   Edit3,
   ExternalLink,
+  FileSpreadsheet,
   Filter,
   FolderKanban,
   Gauge,
@@ -33,11 +34,13 @@ import toast from 'react-hot-toast';
 import ConfirmModal from '../components/ConfirmModal';
 import DataTable from '../components/DataTable';
 import Avatar from '../components/Avatar';
+import BulkImportModal from '../components/BulkImportModal';
 import { getErrorMessage } from '../services/api';
 import { projectService } from '../services/projectService';
 import { taskService } from '../services/taskService';
 import { userService } from '../services/userService';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
 
 const emptyProject = {
@@ -104,10 +107,12 @@ const ProjectHealthBadge = ({ project }) => {
 
 const Projects = () => {
   const { isLight } = useTheme();
+  const { canImportExcel } = useAuth();
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(emptyProject);
   const [workingMembers, setWorkingMembers] = useState([]);
@@ -680,6 +685,17 @@ const Projects = () => {
           <p className="project-command-copy">Create project spaces, assign members, and track completion.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          {canImportExcel && (
+            <button
+              type="button"
+              className="btn-secondary flex items-center gap-2 border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-transparent hover:bg-emerald-100/60 dark:hover:bg-emerald-500/10 hover:border-emerald-500/60 shadow-sm dark:shadow-none transition-colors"
+              onClick={() => setImportModalOpen(true)}
+              title="Import Users, Projects, and Tasks via Excel/CSV"
+            >
+              <FileSpreadsheet size={16} />
+              Import Data
+            </button>
+          )}
           <button
             type="button"
             className="btn-secondary flex items-center gap-2"
@@ -708,7 +724,7 @@ const Projects = () => {
           'rounded-2xl border p-3 backdrop-blur-md transition-all duration-300 relative z-30',
           isLight
             ? 'border-slate-200/80 bg-white/80 shadow-md shadow-slate-200/15'
-            : 'border-white/[0.08] bg-[#141417] shadow-xl shadow-black/30'
+            : 'border-[var(--border-soft)] bg-[var(--panel)] shadow-xl shadow-black/30'
         )}
       >
         <div className="flex flex-wrap items-center gap-2.5">
@@ -721,7 +737,7 @@ const Projects = () => {
                 'w-full h-10 rounded-full border pl-10 pr-9 text-xs font-medium outline-none transition-all duration-200 placeholder:text-slate-400',
                 isLight
                   ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:bg-white focus:border-cyan-500'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-700'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] placeholder-[var(--text-faint)] focus:border-[var(--border-strong)]'
               )}
               placeholder="Search projects..."
               value={filters.search}
@@ -753,7 +769,7 @@ const Projects = () => {
                       : 'border-cyan-500/50 bg-cyan-500/15 text-cyan-300 ring-1 ring-cyan-500/30'
                     : isLight
                     ? 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-white hover:border-slate-300'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-200 hover:border-white/20'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)] hover:border-[var(--border-strong)]'
                 )}
               >
                 <Filter size={15} className={activeFilterList.length > 0 ? (isLight ? 'text-cyan-600' : 'text-cyan-400') : 'text-slate-400'} />
@@ -773,7 +789,7 @@ const Projects = () => {
                     'absolute right-0 top-full mt-2 z-[100] w-80 sm:w-96 rounded-2xl border p-4 shadow-2xl backdrop-blur-xl transition-all space-y-4 animate-in fade-in slide-in-from-top-2 duration-200',
                     isLight
                       ? 'border-slate-200 bg-white text-slate-800 shadow-slate-300/50'
-                      : 'border-white/10 bg-[#18181b] text-zinc-100 shadow-black/80'
+                      : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-[var(--text-primary)] shadow-black/80'
                   )}
                 >
                   {/* Header */}
@@ -810,7 +826,7 @@ const Projects = () => {
                             onChange={(e) => setFilters((prev) => ({ ...prev, hierarchy: e.target.value }))}
                             className={clsx(
                               'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                             )}
                           >
                             <option value="all">All Types</option>
@@ -828,7 +844,7 @@ const Projects = () => {
                               onChange={(e) => setFilters((prev) => ({ ...prev, parentProjectId: e.target.value }))}
                               className={clsx(
                                 'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                                isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                                isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                               )}
                             >
                               <option value="all">All Parents</option>
@@ -857,7 +873,7 @@ const Projects = () => {
                             onChange={(e) => setFilters((prev) => ({ ...prev, health: e.target.value }))}
                             className={clsx(
                               'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                             )}
                           >
                             <option value="all">All Health</option>
@@ -877,7 +893,7 @@ const Projects = () => {
                             onChange={(e) => setFilters((prev) => ({ ...prev, status: e.target.value }))}
                             className={clsx(
                               'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                             )}
                           >
                             <option value="all">All Statuses</option>
@@ -903,7 +919,7 @@ const Projects = () => {
                             onChange={(e) => setFilters((prev) => ({ ...prev, progress: e.target.value }))}
                             className={clsx(
                               'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                              isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                             )}
                           >
                             <option value="all">All Progress</option>
@@ -922,7 +938,7 @@ const Projects = () => {
                               onChange={(e) => setFilters((prev) => ({ ...prev, memberId: e.target.value }))}
                               className={clsx(
                                 'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
-                                isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-white/10 bg-[#121215] text-zinc-200'
+                                isLight ? 'border-slate-200 bg-slate-50 text-slate-800' : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                               )}
                             >
                               <option value="all">All Members</option>
@@ -1166,6 +1182,14 @@ const Projects = () => {
         onClose={() => setDetailProject(null)}
         onEditProject={openEdit}
       />
+
+      {/* Bulk Excel Data Import Modal */}
+      <BulkImportModal
+        open={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onImportSuccess={load}
+        initialTab="projects"
+      />
     </div>
   );
 };
@@ -1257,7 +1281,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
           'w-full max-w-3xl rounded-2xl border p-6 transition-all duration-300 shadow-2xl space-y-6',
           isLight
             ? 'border-slate-200 bg-white text-slate-900'
-            : 'border-white/[0.08] bg-[#18181b] text-zinc-100'
+            : 'border-[var(--border-soft)] bg-[var(--panel)] text-[var(--text-primary)]'
         )}
       >
         {/* Top Header */}
@@ -1268,7 +1292,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
                 'flex h-12 w-12 items-center justify-center rounded-xl border text-base font-semibold transition-colors shrink-0',
                 isLight
                   ? 'border-slate-300 bg-slate-100 text-slate-700'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-200'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
               )}
             >
               {getProjectInitials(project.project_name)}
@@ -1308,7 +1332,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
 
         {/* Project Key Metrics Grid */}
         <div className="grid gap-3 sm:grid-cols-4">
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Total Tasks</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black">{metrics.total}</span>
@@ -1316,7 +1340,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Completion</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black text-emerald-500">{metrics.rate}%</span>
@@ -1324,7 +1348,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Story Points</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-2xl font-black text-amber-500">{metrics.completedPoints}/{metrics.points}</span>
@@ -1332,7 +1356,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
             </div>
           </div>
 
-          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-white/[0.08] bg-[#141417]'}`}>
+          <div className={`rounded-xl border p-3.5 ${isLight ? 'border-slate-200 bg-slate-50' : 'border-[var(--border-soft)] bg-[var(--panel-soft)]'}`}>
             <p className={`text-xs font-semibold uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>End Target Date</p>
             <div className="mt-1 flex items-baseline justify-between">
               <span className="text-sm font-bold truncate">{project.end_date ? formatDate(project.end_date) || 'Not set' : 'Not set'}</span>
@@ -1351,7 +1375,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
               {assignedMembers.map((m) => (
                 <div
                   key={m.user_id}
-                  className={`flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${isLight ? 'border-slate-200 bg-slate-50 text-slate-700' : 'border-white/[0.08] bg-[#141417] text-zinc-200'}`}
+                  className={`flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${isLight ? 'border-slate-200 bg-slate-50 text-slate-700' : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-[var(--text-primary)]'}`}
                 >
                   <Avatar name={m.full_name} size="sm" />
                   <span>{m.full_name}</span>
@@ -1367,7 +1391,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
           {loading ? (
             <div className="py-8 text-center text-sm text-slate-400">Loading project task breakdown...</div>
           ) : tasks.length === 0 ? (
-            <div className={`rounded-xl border p-8 text-center text-sm ${isLight ? 'border-slate-200 bg-slate-50 text-slate-500' : 'border-white/[0.08] bg-[#141417] text-zinc-400'}`}>
+            <div className={`rounded-xl border p-8 text-center text-sm ${isLight ? 'border-slate-200 bg-slate-50 text-slate-500' : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-[var(--text-muted)]'}`}>
               No tasks currently linked to this project space.
             </div>
           ) : (
@@ -1386,7 +1410,7 @@ const ProjectDetailModal = ({ project, users = [], onClose, onEditProject }) => 
                       'group flex items-center justify-between rounded-xl border p-3 transition-all cursor-pointer hover:border-cyan-500/50',
                       isLight
                         ? 'border-slate-200 bg-slate-50/80 hover:bg-slate-100'
-                        : 'border-white/[0.08] bg-[#141417] hover:bg-white/[0.05]'
+                        : 'border-[var(--border-soft)] bg-[var(--panel-soft)] hover:bg-[var(--hover-soft)]'
                     )}
                   >
                     <div className="min-w-0 flex-1">

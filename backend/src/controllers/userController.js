@@ -209,15 +209,15 @@ export const getUsers = asyncHandler(async (req, res) => {
 
   const result = await pool.query(
     `
-      SELECT u.user_id, u.full_name, u.email, u.department, u.designation, u.status,
-             u.created_at, u.updated_at, r.role_name,
+      SELECT u.user_id, u.full_name, u.display_name, u.email, u.department, u.designation, u.status,
+             u.can_import_excel, u.created_at, u.updated_at, r.role_name,
              COUNT(t.task_id)::int AS task_count
       FROM Users u
       INNER JOIN Roles r ON r.role_id = u.role_id
       LEFT JOIN Tasks t ON t.assigned_user_id = u.user_id
       ${where.length ? `WHERE ${where.join(' AND ')}` : ''}
-      GROUP BY u.user_id, u.full_name, u.email, u.department, u.designation, u.status,
-               u.created_at, u.updated_at, r.role_name
+      GROUP BY u.user_id, u.full_name, u.display_name, u.email, u.department, u.designation, u.status,
+               u.can_import_excel, u.created_at, u.updated_at, r.role_name
       ORDER BY u.created_at DESC
     `,
     params
@@ -230,15 +230,15 @@ export const getUserById = asyncHandler(async (req, res) => {
   const pool = await getPool();
   const result = await pool.query(
     `
-      SELECT u.user_id, u.full_name, u.email, u.department, u.designation, u.status,
-             u.created_at, u.updated_at, r.role_name,
+      SELECT u.user_id, u.full_name, u.display_name, u.email, u.department, u.designation, u.status,
+             u.can_import_excel, u.created_at, u.updated_at, r.role_name,
              COUNT(t.task_id)::int AS task_count
       FROM Users u
       INNER JOIN Roles r ON r.role_id = u.role_id
       LEFT JOIN Tasks t ON t.assigned_user_id = u.user_id
       WHERE u.user_id = $1
-      GROUP BY u.user_id, u.full_name, u.email, u.department, u.designation, u.status,
-               u.created_at, u.updated_at, r.role_name
+      GROUP BY u.user_id, u.full_name, u.display_name, u.email, u.department, u.designation, u.status,
+               u.can_import_excel, u.created_at, u.updated_at, r.role_name
     `,
     [req.params.id]
   );
@@ -269,7 +269,7 @@ export const createUser = asyncHandler(async (req, res) => {
     `
       INSERT INTO Users (full_name, email, password_hash, role_id, department, designation, status)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING user_id, full_name, email, department, designation, status, created_at
+      RETURNING user_id, full_name, email, department, designation, status, can_import_excel, created_at
     `,
     [full_name, email.toLowerCase(), passwordHash, roleResult.rows[0].role_id, department || null, designation || null, status]
   );
@@ -329,7 +329,7 @@ export const updateUser = asyncHandler(async (req, res) => {
           status = COALESCE($7, status),
           updated_at = CURRENT_TIMESTAMP
       WHERE user_id = $8
-      RETURNING user_id, full_name, email, department, designation, status, updated_at
+      RETURNING user_id, full_name, email, department, designation, status, can_import_excel, updated_at
     `,
     [
       full_name || null,

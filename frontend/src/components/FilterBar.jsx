@@ -92,7 +92,7 @@ const FilterBar = ({
         'rounded-2xl border p-3 backdrop-blur-md transition-all duration-300 relative z-30',
         isLight
           ? 'border-slate-200/80 bg-white/80 shadow-md shadow-slate-200/15'
-          : 'border-white/[0.08] bg-[#141417] shadow-xl shadow-black/30'
+          : 'border-[var(--border-soft)] bg-[var(--panel)] shadow-xl shadow-black/30'
       )}
     >
       <div className="flex flex-wrap items-center gap-2.5">
@@ -110,7 +110,7 @@ const FilterBar = ({
               'w-full h-10 rounded-full border pl-10 pr-9 text-xs font-medium transition-all duration-200 outline-none placeholder:text-slate-400',
               isLight
                 ? 'border-slate-200 bg-slate-50/80 text-slate-800 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 shadow-2xs'
-                : 'border-white/[0.08] bg-[#141417] text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700'
+                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-100 placeholder:text-zinc-500 focus:border-cyan-500/50'
             )}
             placeholder="Search tasks by title..."
             value={filters.search || ''}
@@ -146,7 +146,7 @@ const FilterBar = ({
                     : 'border-indigo-500/50 bg-indigo-500/15 text-indigo-300 ring-1 ring-indigo-500/30'
                   : isLight
                   ? 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-white hover:border-slate-300'
-                  : 'border-white/[0.08] bg-[#141417] text-zinc-200 hover:border-white/20'
+                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200 hover:border-[var(--border-strong)]'
               )}
             >
               <Filter size={15} className={activeFilters.length > 0 ? (isLight ? 'text-indigo-600' : 'text-indigo-400') : 'text-slate-400'} />
@@ -166,7 +166,7 @@ const FilterBar = ({
                   'absolute right-0 top-full mt-2 z-[100] w-80 sm:w-96 rounded-2xl border p-4 shadow-2xl backdrop-blur-xl transition-all space-y-4 animate-in fade-in slide-in-from-top-2 duration-200',
                   isLight
                     ? 'border-slate-200 bg-white text-slate-800 shadow-slate-300/50'
-                    : 'border-white/10 bg-[#18181b] text-zinc-100 shadow-black/80'
+                    : 'border-[var(--border-soft)] bg-[var(--panel)] text-[var(--text-primary)] shadow-black/80'
                 )}
               >
                 {/* Header */}
@@ -207,7 +207,7 @@ const FilterBar = ({
                                 'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
                                 isLight
                                   ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                  : 'border-white/10 bg-[#121215] text-zinc-200'
+                                  : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-[var(--text-primary)]'
                               )}
                             >
                               <option value="">All Parents</option>
@@ -230,7 +230,7 @@ const FilterBar = ({
                               'w-full h-9 rounded-xl border px-2.5 text-xs font-medium outline-none cursor-pointer',
                               isLight
                                 ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           >
                             <option value="">All Projects</option>
@@ -238,15 +238,15 @@ const FilterBar = ({
                               <optgroup
                                 key={group.parentName}
                                 label={`── ${group.parentName.toUpperCase()} ──`}
-                                className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[#18181b] text-zinc-400 font-bold'}
-                                style={{ backgroundColor: isLight ? '#f1f5f9' : '#18181b', color: isLight ? '#475569' : '#a1a1aa' }}
+                                className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[var(--panel-soft)] text-zinc-400 font-bold'}
+                                style={{ backgroundColor: isLight ? '#f1f5f9' : 'var(--panel-soft)', color: isLight ? '#475569' : '#a1a1aa' }}
                               >
                                 {group.subProjects.map((sp) => (
                                   <option
                                     key={sp.project_id}
                                     value={sp.project_id}
-                                    className={isLight ? 'bg-white text-slate-900' : 'bg-[#1c1c20] text-zinc-100'}
-                                    style={{ backgroundColor: isLight ? '#ffffff' : '#1c1c20', color: isLight ? '#0f172a' : '#f4f4f5' }}
+                                    className={isLight ? 'bg-white text-slate-900' : 'bg-[var(--panel-raised)] text-zinc-100'}
+                                    style={{ backgroundColor: isLight ? '#ffffff' : 'var(--panel-raised)', color: isLight ? '#0f172a' : '#f4f4f5' }}
                                   >
                                     {sp.project_name}
                                   </option>
@@ -256,15 +256,15 @@ const FilterBar = ({
                             {projectGroups.topLevel.length > 0 && (
                               <optgroup
                                 label="── OTHER PROJECTS ──"
-                                className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[#18181b] text-zinc-400 font-bold'}
-                                style={{ backgroundColor: isLight ? '#f1f5f9' : '#18181b', color: isLight ? '#475569' : '#a1a1aa' }}
+                                className={isLight ? 'bg-slate-100 text-slate-600 font-bold' : 'bg-[var(--panel-soft)] text-zinc-400 font-bold'}
+                                style={{ backgroundColor: isLight ? '#f1f5f9' : 'var(--panel-soft)', color: isLight ? '#475569' : '#a1a1aa' }}
                               >
                                 {projectGroups.topLevel.map((p) => (
                                   <option
                                     key={p.project_id}
                                     value={p.project_id}
-                                    className={isLight ? 'bg-white text-slate-900' : 'bg-[#1c1c20] text-zinc-100'}
-                                    style={{ backgroundColor: isLight ? '#ffffff' : '#1c1c20', color: isLight ? '#0f172a' : '#f4f4f5' }}
+                                    className={isLight ? 'bg-white text-slate-900' : 'bg-[var(--panel-raised)] text-zinc-100'}
+                                    style={{ backgroundColor: isLight ? '#ffffff' : 'var(--panel-raised)', color: isLight ? '#0f172a' : '#f4f4f5' }}
                                   >
                                     {p.project_name}
                                   </option>
@@ -293,7 +293,7 @@ const FilterBar = ({
                             'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                             isLight
                               ? 'border-slate-200 bg-slate-50 text-slate-800'
-                              : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                           )}
                         >
                           <option value="">All Statuses</option>
@@ -316,7 +316,7 @@ const FilterBar = ({
                             'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                             isLight
                               ? 'border-slate-200 bg-slate-50 text-slate-800'
-                              : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                           )}
                         >
                           <option value="">All Streams</option>
@@ -337,7 +337,7 @@ const FilterBar = ({
                               'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                               isLight
                                 ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                : 'border-white/10 bg-[#121215] text-zinc-200'
+                                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           >
                             <option value="">All Priorities</option>
@@ -367,7 +367,7 @@ const FilterBar = ({
                               'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                               isLight
                                 ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                : 'border-white/10 bg-[#121215] text-zinc-200'
+                                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           >
                             <option value="">All Users</option>
@@ -388,7 +388,7 @@ const FilterBar = ({
                             'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                             isLight
                               ? 'border-slate-200 bg-slate-50 text-slate-800'
-                              : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                           )}
                         >
                           <option value="">All Locations</option>
@@ -408,7 +408,7 @@ const FilterBar = ({
                             'w-full h-9 rounded-xl border px-2 text-xs font-medium outline-none cursor-pointer',
                             isLight
                               ? 'border-slate-200 bg-slate-50 text-slate-800'
-                              : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                           )}
                         >
                           <option value="">All Points</option>
@@ -436,7 +436,7 @@ const FilterBar = ({
                             'w-full h-9 rounded-xl border px-3 text-xs outline-none cursor-pointer',
                             isLight
                               ? 'border-slate-200 bg-slate-50 text-slate-800'
-                              : 'border-white/10 bg-[#121215] text-zinc-200'
+                              : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                           )}
                         />
                       </label>
@@ -452,7 +452,7 @@ const FilterBar = ({
                               'w-full h-9 rounded-xl border px-2 text-xs outline-none cursor-pointer',
                               isLight
                                 ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                : 'border-white/10 bg-[#121215] text-zinc-200'
+                                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           />
                         </label>
@@ -466,7 +466,7 @@ const FilterBar = ({
                               'w-full h-9 rounded-xl border px-2 text-xs outline-none cursor-pointer',
                               isLight
                                 ? 'border-slate-200 bg-slate-50 text-slate-800'
-                                : 'border-white/10 bg-[#121215] text-zinc-200'
+                                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           />
                         </label>

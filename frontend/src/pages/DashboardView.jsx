@@ -53,10 +53,10 @@ const activityPageSize = 6;
 const priorityOrder = ['Low', 'Medium', 'High', 'Critical'];
 const heatmapStatuses = ['Backlog', 'To Do', 'In Progress', 'In Review', 'Testing', 'Blocked', 'Completed'];
 const riskQuadrants = [
-  { label: 'Healthy', tone: 'text-emerald-300' },
-  { label: 'Busy', tone: 'text-blue-300' },
-  { label: 'Delay Risk', tone: 'text-amber-300' },
-  { label: 'Critical Load', tone: 'text-rose-300' }
+  { label: 'Healthy', toneLight: 'text-emerald-700 bg-emerald-50 border-emerald-200/80', toneDark: 'text-emerald-300 border-white/10 bg-white/[0.03]' },
+  { label: 'Busy', toneLight: 'text-blue-700 bg-blue-50 border-blue-200/80', toneDark: 'text-blue-300 border-white/10 bg-white/[0.03]' },
+  { label: 'Delay Risk', toneLight: 'text-amber-700 bg-amber-50 border-amber-200/80', toneDark: 'text-amber-300 border-white/10 bg-white/[0.03]' },
+  { label: 'Critical Load', toneLight: 'text-rose-700 bg-rose-50 border-rose-200/80', toneDark: 'text-rose-300 border-white/10 bg-white/[0.03]' }
 ];
 
 const formatCompactNumber = (value) =>
@@ -398,16 +398,16 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
   return (
     <div className="space-y-6">
       <section className="glass-panel p-5">
-        <p className="text-xs uppercase tracking-[0.22em] text-cyan-300/80">JIRA Server analytics</p>
+        <p className={isLight ? "text-xs uppercase tracking-[0.22em] font-bold text-cyan-700" : "text-xs uppercase tracking-[0.22em] text-cyan-300/80"}>JIRA Server analytics</p>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-white">{title}</h2>
-            <p className="mt-1 text-sm text-slate-400">Live rollups from tasks, users, projects, and activity history.</p>
+            <h2 className={isLight ? "text-2xl font-bold text-slate-900" : "text-2xl font-bold text-white"}>{title}</h2>
+            <p className={isLight ? "mt-1 text-sm text-slate-600 font-medium" : "mt-1 text-sm text-slate-400"}>Live rollups from tasks, users, projects, and activity history.</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <ActiveUsersStrip users={activeUsers} isLight={isLight} />
-            <div className="rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-4 py-3 text-emerald-200">
-              <p className="text-xs text-emerald-200/80">Progress</p>
+            <div className={isLight ? "rounded-lg border border-emerald-500/30 bg-emerald-50 px-4 py-3 text-emerald-800" : "rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-4 py-3 text-emerald-200"}>
+              <p className={isLight ? "text-xs text-emerald-700/90 font-semibold" : "text-xs text-emerald-200/80"}>Progress</p>
               <p className="text-2xl font-bold">{overview.progress_percentage || 0}%</p>
             </div>
           </div>
@@ -521,7 +521,9 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
               {riskQuadrants.map((item) => (
                 <span
                   key={item.label}
-                  className={`rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium ${item.tone}`}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${
+                    isLight ? item.toneLight : item.toneDark
+                  }`}
                 >
                   {item.label}
                 </span>
@@ -592,21 +594,21 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
                   onMouseEnter={() => setActiveRiskName(item.name)}
                   onMouseLeave={() => setActiveRiskName(null)}
                   className={`flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-medium transition ${isLight
-                      ? 'border-slate-200 bg-white/80 hover:border-slate-300 hover:bg-white'
-                      : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
+                      ? 'border-slate-200 bg-white/90 text-slate-900 hover:border-slate-300 hover:bg-white'
+                      : 'border-white/10 bg-white/[0.03] text-white hover:border-white/20 hover:bg-white/[0.05]'
                     } ${isActive ? 'shadow-glow' : ''}`}
                 >
                   <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: tone.fill }} />
-                  <span className="max-w-[9rem] truncate text-white">{item.name}</span>
+                  <span className={`max-w-[9rem] truncate ${isLight ? 'text-slate-900 font-semibold' : 'text-white'}`}>{item.name}</span>
                 </button>
               );
             })}
           </div>
           <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-            <RiskMetricCard label="In Progress" value={activeRiskItem?.in_progress || 0} accent="text-blue-300" />
-            <RiskMetricCard label="Overdue" value={activeRiskItem?.overdue || 0} accent="text-rose-300" />
-            <RiskMetricCard label="Open Tasks" value={activeRiskItem?.open_tasks || 0} accent="text-cyan-300" />
-            <RiskMetricCard label="High/Critical" value={activeRiskItem?.high_priority_open || 0} accent="text-amber-300" />
+            <RiskMetricCard label="In Progress" value={activeRiskItem?.in_progress || 0} accent={isLight ? "text-blue-600 font-bold" : "text-blue-300"} isLight={isLight} />
+            <RiskMetricCard label="Overdue" value={activeRiskItem?.overdue || 0} accent={isLight ? "text-rose-600 font-bold" : "text-rose-300"} isLight={isLight} />
+            <RiskMetricCard label="Open Tasks" value={activeRiskItem?.open_tasks || 0} accent={isLight ? "text-cyan-600 font-bold" : "text-cyan-300"} isLight={isLight} />
+            <RiskMetricCard label="High/Critical" value={activeRiskItem?.high_priority_open || 0} accent={isLight ? "text-amber-600 font-bold" : "text-amber-300"} isLight={isLight} />
           </div>
         </ChartPanel>
 
@@ -739,7 +741,7 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
         >
           <div className="overflow-x-auto">
             <div className="min-w-[36rem] xl:min-w-0">
-              <div className="grid grid-cols-[minmax(8rem,1.5fr)_repeat(7,minmax(3.5rem,1fr))] gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider sm:tracking-[0.12em] text-slate-500">
+              <div className={`grid grid-cols-[minmax(8rem,1.5fr)_repeat(7,minmax(3.5rem,1fr))] gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider sm:tracking-[0.12em] ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>
                 <div className="px-3 py-2">Module</div>
                 {heatmapStatuses.map((status) => (
                   <div key={status} className="px-1 sm:px-3 py-2 text-center truncate" title={status}>
@@ -755,11 +757,10 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
                       className="grid grid-cols-[minmax(8rem,1.5fr)_repeat(7,minmax(3.5rem,1fr))] gap-1.5 sm:gap-2"
                     >
                       <div
-                        className={`rounded-xl border px-3 py-3 text-sm font-medium ${isLight ? 'border-slate-200 bg-white/75' : 'border-white/10 bg-white/[0.03]'
-                          } text-white`}
+                        className={`rounded-xl border px-3 py-3 text-sm font-medium ${isLight ? 'border-slate-200 bg-white/80 text-slate-900' : 'border-white/10 bg-white/[0.03] text-white'}`}
                       >
-                        <div className="truncate">{module.module_name}</div>
-                        <div className="mt-1 text-xs text-slate-500">{formatCompactNumber(module.total)} total</div>
+                        <div className="truncate font-semibold">{module.module_name}</div>
+                        <div className={`mt-1 text-xs ${isLight ? 'text-slate-600 font-medium' : 'text-slate-500'}`}>{formatCompactNumber(module.total)} total</div>
                       </div>
                       {heatmapStatuses.map((status) => {
                         const cellValue = module[status] || 0;
@@ -781,11 +782,12 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
                               })
                             }
                             onMouseLeave={() => setActiveHeatCell(null)}
-                            className={`min-h-[3.5rem] rounded-xl border text-sm font-semibold text-white transition ${isLight ? 'border-slate-200' : 'border-white/10'
-                              } ${isActive ? 'scale-[1.03] shadow-glow' : ''}`}
+                            className={`min-h-[3.5rem] rounded-xl border text-sm font-semibold transition ${
+                              isLight ? 'border-slate-200/80 text-slate-900 font-bold' : 'border-white/10 text-white'
+                            } ${isActive ? 'scale-[1.03] shadow-glow' : ''}`}
                             style={{
                               background: isLight
-                                ? `linear-gradient(135deg, rgba(37, 99, 235, ${Math.max(intensity * 0.55, 0.08)}), rgba(14, 165, 233, ${Math.max(intensity, 0.1)}))`
+                                ? `linear-gradient(135deg, rgba(37, 99, 235, ${Math.max(intensity * 0.45, 0.08)}), rgba(14, 165, 233, ${Math.max(intensity * 0.7, 0.12)}))`
                                 : `linear-gradient(135deg, rgba(34, 211, 238, ${Math.max(intensity, 0.08)}), rgba(99, 102, 241, ${Math.max(intensity * 0.9, 0.08)}))`
                             }}
                           >
@@ -806,10 +808,10 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
         <div className="glass-panel flex min-h-[22.5rem] flex-col p-4">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Gauge size={18} className="text-cyan-300" />
+              <Gauge size={18} className={isLight ? "text-cyan-600" : "text-cyan-300"} />
               <div>
-                <h3 className="font-semibold text-white">Recent activity</h3>
-                <p className="text-xs text-slate-500">Latest updates across tasks and status changes.</p>
+                <h3 className={`font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>Recent activity</h3>
+                <p className={`text-xs ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>Latest updates across tasks and status changes.</p>
               </div>
             </div>
             {recentActivity.length ? (
@@ -823,7 +825,7 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
                 >
                   <ChevronLeft size={16} />
                 </button>
-                <span className="min-w-16 text-center text-xs font-semibold text-slate-400">
+                <span className={`min-w-16 text-center text-xs font-semibold ${isLight ? 'text-slate-700' : 'text-slate-400'}`}>
                   {activityPage} / {totalActivityPages}
                 </span>
                 <button
@@ -838,16 +840,17 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
               </div>
             ) : null}
           </div>
-      <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1">
+          <div className="flex-1 flex flex-col gap-3 overflow-y-auto pr-1">
             {recentActivity.length ? (
               visibleActivity.map((item) => (
                 <div
                   key={item.history_id}
-              className={`flex-1 flex flex-col justify-center w-full min-h-[4.5rem] rounded-xl border p-3 ${isLight ? 'border-slate-200 bg-white/75' : 'border-white/10 bg-white/[0.03]'
-                    }`}
+                  className={`flex-1 flex flex-col justify-center w-full min-h-[4.5rem] rounded-xl border p-3 ${
+                    isLight ? 'border-slate-200/90 bg-white/90 shadow-2xs' : 'border-white/10 bg-white/[0.03]'
+                  }`}
                 >
-                  <p className="text-sm font-medium text-white">{item.task_title}</p>
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>{item.task_title}</p>
+                  <p className={`mt-1 text-xs ${isLight ? 'text-slate-600' : 'text-slate-500'}`}>
                     {item.change_description} · {item.changed_by_name || 'System'}
                   </p>
                 </div>
@@ -862,33 +865,59 @@ const DashboardView = ({ title, loader, isAdmin = false }) => {
   );
 };
 
-const ChartPanel = ({ eyebrow, title, badge, insight, actions, children }) => (
-  <div className="glass-panel flex flex-col justify-between overflow-hidden p-4 sm:p-5 h-full">
-    <div className="mb-4 flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.08] pb-4">
-      <div>
-        {eyebrow ? <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 font-mono">{eyebrow}</p> : null}
-        <h3 className="mt-1 text-lg font-bold tracking-tight text-zinc-100">{title}</h3>
-        {insight ? <p className="mt-1 text-sm text-zinc-400">{insight}</p> : null}
-      </div>
-      <div className="flex flex-wrap items-center gap-2">
-        {badge ? (
-          <div className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-xs font-semibold text-zinc-300">
-            {badge}
-          </div>
-        ) : null}
-        {actions}
-      </div>
-    </div>
-    <div className="flex-1 flex flex-col justify-center">
-      {children}
-    </div>
-  </div>
-);
+const ChartPanel = ({ eyebrow, title, badge, insight, actions, children }) => {
+  const { isLight } = useTheme();
 
-const RiskMetricCard = ({ label, value, accent }) => (
-  <div className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3">
-    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500">{label}</p>
-    <p className={`mt-2 text-lg font-semibold ${accent}`}>{formatCompactNumber(value)}</p>
+  return (
+    <div className="glass-panel flex flex-col justify-between overflow-hidden p-4 sm:p-5 h-full">
+      <div className={`mb-4 flex flex-wrap items-start justify-between gap-4 border-b pb-4 ${
+        isLight ? 'border-slate-200/80' : 'border-white/[0.08]'
+      }`}>
+        <div>
+          {eyebrow ? (
+            <p className={`text-[11px] font-semibold uppercase tracking-wider font-mono ${
+              isLight ? 'text-slate-500 font-bold' : 'text-zinc-400'
+            }`}>
+              {eyebrow}
+            </p>
+          ) : null}
+          <h3 className={`mt-1 text-lg font-bold tracking-tight ${
+            isLight ? 'text-slate-900' : 'text-zinc-100'
+          }`}>
+            {title}
+          </h3>
+          {insight ? (
+            <p className={`mt-1 text-sm ${
+              isLight ? 'text-slate-600 font-medium' : 'text-zinc-400'
+            }`}>
+              {insight}
+            </p>
+          ) : null}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {badge ? (
+            <div className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              isLight
+                ? 'border-slate-300/70 bg-slate-100 text-slate-700'
+                : 'border-white/[0.08] bg-white/[0.04] text-zinc-300'
+            }`}>
+              {badge}
+            </div>
+          ) : null}
+          {actions}
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col justify-center">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+const RiskMetricCard = ({ label, value, accent, isLight }) => (
+  <div className={`rounded-xl border px-3 py-3 ${isLight ? 'border-slate-200 bg-white/90 shadow-2xs' : 'border-white/10 bg-white/[0.03]'}`}>
+    <p className={`text-[11px] uppercase tracking-[0.16em] ${isLight ? 'text-slate-600 font-semibold' : 'text-slate-500'}`}>{label}</p>
+    <p className={`mt-2 text-lg font-bold ${accent}`}>{formatCompactNumber(value)}</p>
   </div>
 );
 

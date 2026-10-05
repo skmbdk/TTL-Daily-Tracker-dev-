@@ -15,6 +15,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import importRoutes from './routes/importRoutes.js';
 import { protect } from './middleware/authMiddleware.js';
 import { initSocket } from './socket.js';
 
@@ -100,6 +101,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/import', importRoutes);
 
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
@@ -159,6 +161,8 @@ const autoMigrateCompletedStatus = async () => {
       );
     `);
 
+    await pool.query('ALTER TABLE Users ADD COLUMN IF NOT EXISTS display_name VARCHAR(150);');
+    await pool.query('ALTER TABLE Users ADD COLUMN IF NOT EXISTS can_import_excel BOOLEAN DEFAULT FALSE;');
     await pool.query('ALTER TABLE TaskComments ADD COLUMN IF NOT EXISTS parent_comment_id INT REFERENCES TaskComments(comment_id) ON DELETE CASCADE;');
     await pool.query('ALTER TABLE Tasks ADD COLUMN IF NOT EXISTS story_points INT DEFAULT 1;');
     await pool.query('UPDATE Tasks SET story_points = 1 WHERE story_points IS NULL;');
@@ -175,7 +179,7 @@ const autoMigrateCompletedStatus = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    logger.info('PostgreSQL status constraint, story_points, parent_project_id, Notifications, TaskAttachments, TaskComments parent_comment_id & AuditLogs verified successfully.');
+    logger.info('PostgreSQL status constraint, display_name, story_points, parent_project_id, Notifications, TaskAttachments, TaskComments parent_comment_id & AuditLogs verified successfully.');
   } catch (error) {
     logger.error(`Auto migration status warning: ${error?.message}`);
   }

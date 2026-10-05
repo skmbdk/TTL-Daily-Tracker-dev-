@@ -61,7 +61,7 @@ const AnimatedOutlet = () => {
 };
 
 const AuthenticatedLayout = () => (
-  <div className="app-shell flex min-h-screen bg-[#09090b]">
+  <div className="app-shell flex min-h-screen bg-[var(--app-bg)]">
     <ScrollProgressBar />
     <Sidebar />
     <main className="app-main min-w-0 flex-1 flex flex-col">

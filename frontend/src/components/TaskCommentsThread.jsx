@@ -259,7 +259,7 @@ const TaskCommentsThread = ({ taskId, readOnly = false, onCommentAdded }) => {
                     'rounded-xl border p-3 transition-all duration-200 space-y-2.5',
                     isLight
                       ? 'border-slate-200/90 bg-white text-slate-800 shadow-sm hover:border-slate-300'
-                      : 'border-white/[0.08] bg-[#18181b] text-zinc-100 hover:border-white/20'
+                      : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-zinc-100 hover:border-[var(--border-strong)]'
                   )}
                 >
                   {/* Main Root Comment */}
@@ -410,7 +410,7 @@ const TaskCommentsThread = ({ taskId, readOnly = false, onCommentAdded }) => {
                               'rounded-lg border p-2.5 transition-all',
                               isLight
                                 ? 'border-slate-200/90 bg-slate-50/90 text-slate-800'
-                                : 'border-white/[0.08] bg-[#141417] text-zinc-200'
+                                : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200'
                             )}
                           >
                             <div className="flex items-start gap-2">

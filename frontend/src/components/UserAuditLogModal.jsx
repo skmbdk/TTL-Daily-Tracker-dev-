@@ -183,14 +183,14 @@ const UserAuditLogModal = ({ open, onClose }) => {
             'w-full max-w-4xl overflow-hidden rounded-2xl border shadow-2xl transition-all duration-300',
             isLight
               ? 'border-slate-200 bg-white text-slate-900 shadow-slate-300/40'
-              : 'border-white/[0.08] bg-[#18181b] text-zinc-100 shadow-black/60'
+              : 'border-[var(--border-soft)] bg-[var(--panel-soft)] text-zinc-100 shadow-black/60'
           )}
         >
           {/* Header */}
           <div
             className={clsx(
               'flex items-center justify-between border-b px-6 py-4',
-              isLight ? 'border-slate-200 bg-slate-50/80' : 'border-white/[0.08] bg-[#141417]'
+              isLight ? 'border-slate-200 bg-slate-50/80' : 'border-[var(--border-soft)] bg-[var(--input-bg)]'
             )}
           >
             <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ const UserAuditLogModal = ({ open, onClose }) => {
           <div
             className={clsx(
               'flex flex-wrap items-center justify-between gap-3 border-b px-6 py-3.5',
-              isLight ? 'border-slate-200 bg-slate-100/70' : 'border-white/[0.08] bg-[#141417]'
+              isLight ? 'border-slate-200 bg-slate-100/70' : 'border-[var(--border-soft)] bg-[var(--input-bg)]'
             )}
           >
             <div className="relative flex-1 min-w-[220px]">
@@ -254,7 +254,7 @@ const UserAuditLogModal = ({ open, onClose }) => {
                   'w-full rounded-full border py-1.5 pl-9 pr-8 text-xs transition-all focus:outline-none focus:ring-2',
                   isLight
                     ? 'border-slate-300 bg-white text-slate-800 placeholder-slate-400 focus:border-cyan-500 focus:ring-cyan-500/20 shadow-sm'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-100 placeholder-zinc-500 focus:border-zinc-700'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-100 placeholder-zinc-500 focus:border-cyan-500/50'
                 )}
                 placeholder="Search by Admin name, User name, or details..."
                 value={search}
@@ -287,7 +287,7 @@ const UserAuditLogModal = ({ open, onClose }) => {
                   'rounded-full border px-3 py-1.5 text-xs font-semibold cursor-pointer focus:outline-none focus:ring-2',
                   isLight
                     ? 'border-slate-300 bg-white text-slate-800 focus:border-cyan-500 focus:ring-cyan-500/20 shadow-sm'
-                    : 'border-white/[0.08] bg-[#141417] text-zinc-200 focus:border-zinc-700'
+                    : 'border-[var(--border-soft)] bg-[var(--input-bg)] text-zinc-200 focus:border-cyan-500/50'
                 )}
                 value={actionFilter}
                 onChange={(e) => setActionFilter(e.target.value)}
@@ -466,7 +466,7 @@ const UserAuditLogModal = ({ open, onClose }) => {
           <div
             className={clsx(
               'flex flex-wrap items-center justify-between gap-3 border-t px-6 py-3 text-xs',
-              isLight ? 'border-slate-200 bg-slate-50/90' : 'border-white/[0.08] bg-[#141417]'
+              isLight ? 'border-slate-200 bg-slate-50/90' : 'border-[var(--border-soft)] bg-[var(--input-bg)]'
             )}
           >
             <span className={isLight ? 'text-slate-600' : 'text-slate-400'}>

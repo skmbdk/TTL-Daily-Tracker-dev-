@@ -28,7 +28,7 @@ const getCardClassName = (isLight) => clsx(
   'relative rounded-2xl border p-3.5 transition-all duration-200 overflow-hidden',
   isLight
     ? 'border-slate-200/80 bg-white shadow-xs hover:border-slate-300 hover:shadow-md'
-    : 'border-white/[0.08] bg-[#18181b] shadow-sm hover:border-white/[0.18] hover:bg-[#1c1c20]'
+    : 'border-[var(--border-soft)] bg-[var(--panel-soft)] shadow-sm hover:border-[var(--border-strong)] hover:bg-[var(--panel-raised)]'
 );
 
 const TaskCard = ({ task, users, onOpen, readOnly = false, isActive = false }) => {
