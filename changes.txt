@@ -35,3 +35,39 @@ Haan bilkul! Kal aur aaj ke saare main changes (Theme Fixes, Avatar Polish, Midn
 📝 frontend/src/App.jsx (Main app entry & router layout)
 Ye bilkul complete list hai! GitHub par ye saare 29 files push ho chuke hain, isliye Windows laptop par git pull origin main karne par bilkul smooth & exact working state mil jayegi.
 
+
+Here is a comprehensive Executive Summary of all the changes implemented:
+
+---
+
+# 🚀 Executive Summary of Changes
+
+### 1️⃣ **Theme & UI Aesthetic Alignment**
+* **Theme Selector Order:** Re-ordered Appearance settings strictly to: **Onyx** $\rightarrow$ **Light** $\rightarrow$ **Midnight**.
+* **Midnight Theme Tone:** Updated top navbar, left sidebar, command control panels (`.people-command-panel`, `.project-command-panel`), filter toolbars, Kanban columns, and task cards to use Midnight deep navy blue CSS variables (`var(--panel)`, `var(--input-bg)`), completely matching reference screenshots.
+* **Profile Popover Avatar:** Replaced neon AI-looking badge gradients in the navigation profile popup with a clean, theme-matched professional badge.
+
+---
+
+### 2️⃣ **Bulk Excel Data Import System**
+* **Backend Import & Permission API (`importRoutes.js`):**
+  * `GET /api/import/template`: Streams a standard `.xlsx` Excel template containing sample rows and schemas for **Tasks**, **Projects**, and **Users**.
+  * `POST /api/import/validate`: Parses `.xlsx`/`.csv` uploads, normalizes date formats (Excel serial integers, strings, `Date` objects), checks email syntax, validates parent-child project hierarchies, and returns row-by-row validation status (**Valid**, **Warning**, **Error**).
+  * `POST /api/import/commit`: Executes atomic database transactions (`BEGIN`/`COMMIT`/`ROLLBACK`) inserting valid Users, Projects, and Tasks into PostgreSQL with foreign key resolution.
+  * `PUT /api/import/permission/:userId`: Endpoint allowing Admins to grant or revoke Excel import rights per user.
+* **Frontend UI Modal (`BulkImportModal.jsx`):**
+  * Built a 3-step import modal featuring template download, Drag-and-Drop file upload, live row validation preview with filter tabs, and an import summary report.
+  * Integrated the **"Import Data"** button across **User Management** (`/users`), **Project Management** (`/projects`), and **Kanban Board** (`/kanban`).
+
+---
+
+### 3️⃣ **Admin Permission Control & Persistence (`can_import_excel`)**
+* **Database Schema Update:** Added `can_import_excel` `BOOLEAN` column (default `FALSE`) to the `Users` table with startup auto-migration in `server.js`.
+* **Admin Toggle Control:** Added **"Excel Data Import Access"** switch inside the Edit User modal in User Management.
+* **Query Persistence:** Included `can_import_excel` in backend `getUsers`, `getUserById`, `createUser`, `updateUser`, `login`, and session authentication SQL queries so the checked/unchecked state persists accurately upon saving.
+* **Dynamic Button Rendering:** Wrapped the **Import Data** button in a permission check (`canImportExcel`). Non-admin users only see the button if granted access by an Admin; unchecking the box instantly hides the button on their screen.
+
+---
+
+### 4️⃣ **GitHub Version Control**
+* Staged, committed, rebased, and pushed all 29 modified and created files to the remote repository (`skmbdk/TTL-Daily-Tracker-dev-.git`) on branch `main`.
