@@ -1,4 +1,16 @@
 # Zira Agile Task Management
+<img width="955" height="433" alt="image" src="https://github.com/user-attachments/assets/0a61e6f8-f7a7-4f9b-a6c9-f59f315d6865" />
+<img width="950" height="432" alt="image" src="https://github.com/user-attachments/assets/64420e97-5385-4a39-8351-125a2a2047b2" />
+<img width="957" height="431" alt="image" src="https://github.com/user-attachments/assets/17759f71-9f99-41ce-903b-de004c5d1ea6" />
+<img width="959" height="428" alt="image" src="https://github.com/user-attachments/assets/3c1d88b9-88d8-42a3-bc36-2f3241db9672" />
+<img width="947" height="436" alt="image" src="https://github.com/user-attachments/assets/6a56a439-3f84-4872-99ac-c7aa40b3fdb2" />
+<img width="959" height="432" alt="image" src="https://github.com/user-attachments/assets/8231cb01-8403-42aa-b6fb-898f07edaed2" />
+<img width="951" height="434" alt="image" src="https://github.com/user-attachments/assets/546aaeb3-0d78-4ab0-ae77-aa7972693b64" />
+
+
+
+
+
 
 A full-stack Agile/Jira-style task tracker built from an Excel-tracker workflow. It includes role-based authentication, SQL Server persistence, DB-driven dashboards, task CRUD, comments, task history, reports, and a drag-and-drop Kanban board.
 
