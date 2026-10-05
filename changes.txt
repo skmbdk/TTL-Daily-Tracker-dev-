@@ -1,0 +1,37 @@
+Haan bilkul! Kal aur aaj ke saare main changes (Theme Fixes, Avatar Polish, Midnight Colors, and Bulk Excel Import/Export) ki complete 100% exact 29 files ki list niche de raha hu:
+
+📂 BACKEND FILES (Total 6 Files)
+🆕 backend/src/routes/importRoutes.js (Nayi File - Excel Template, Validate, Commit & Permission APIs)
+📝 backend/src/server.js (Import routes + DB Auto-migration script)
+📝 backend/src/controllers/userController.js (Users queries me can_import_excel column)
+📝 backend/src/controllers/authController.js (Login query me can_import_excel column)
+📝 backend/src/middleware/authMiddleware.js (Session cache query me can_import_excel column)
+📝 backend/src/routes/authRoutes.js (Auth profile routes)
+🎨 FRONTEND FILES (Total 23 Files)
+📥 Import / Export Feature Files:
+🆕 frontend/src/services/importService.js (Nayi File - Import API Client)
+🆕 frontend/src/components/BulkImportModal.jsx (Nayi File - Excel Upload & Validation Table Modal)
+📝 frontend/src/context/AuthContext.jsx (canImportExcel global permission state)
+📝 frontend/src/pages/Users.jsx (Import Button + Admin Permission Toggle Switch)
+📝 frontend/src/pages/Projects.jsx (Import Button + Permission Check)
+📝 frontend/src/pages/Kanban.jsx (Import Button + Permission Check)
+🌙 Midnight / Onyx / Light Theme & UI Polish Files:
+📝 frontend/src/styles/globals.css (Midnight deep navy blue colors, navbar glass blur & panel CSS)
+📝 frontend/src/context/ThemeContext.jsx (Theme selector order: Onyx ➔ Light ➔ Midnight)
+📝 frontend/src/components/Navbar.jsx (Navbar colors & Avatar badge theme match)
+📝 frontend/src/components/KanbanColumn.jsx (Kanban column Midnight backgrounds & glass borders)
+📝 frontend/src/components/TaskCard.jsx (Task card Midnight theme styling)
+📝 frontend/src/components/KanbanFilterBar.jsx (Kanban filter toolbar styling)
+📝 frontend/src/components/FilterBar.jsx (Filter bar styling)
+📝 frontend/src/components/TaskModal.jsx (Task create/edit modal styling)
+📝 frontend/src/components/TaskForm.jsx (Task form inputs)
+📝 frontend/src/components/TaskCommentsThread.jsx (Comments thread styling)
+📝 frontend/src/components/UserAuditLogModal.jsx (User Audit Log modal styling)
+📝 frontend/src/components/StatCard.jsx (Summary stat cards styling)
+📝 frontend/src/pages/DashboardView.jsx (Dashboard theme alignment)
+📝 frontend/src/pages/AdminActivity.jsx (Admin activity view)
+📝 frontend/src/services/authService.js (Auth API service)
+📝 frontend/src/routes/ProtectedRoute.jsx (Route guard)
+📝 frontend/src/App.jsx (Main app entry & router layout)
+Ye bilkul complete list hai! GitHub par ye saare 29 files push ho chuke hain, isliye Windows laptop par git pull origin main karne par bilkul smooth & exact working state mil jayegi.
+
