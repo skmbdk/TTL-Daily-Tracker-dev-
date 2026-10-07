@@ -530,3 +530,115 @@ Here is the complete, detailed list of all sections and files modified, along wi
 5. **Polished Light & Dark Theme Support**:
    - Refined theme tokens so Light (White) Theme renders high-contrast soft cyan badges (`bg-cyan-50`, `border-cyan-300`, `text-cyan-800`), crisp white card backgrounds, and dark slate typography instead of washed-out or overly dark boxes.
    
+## 4. Parent Project, Sub-Project Hierarchy & Task Weight Guide Section
+
+### Files Modified / Created:
+* **[frontend/src/utils/projectGrouping.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/utils/projectGrouping.js)** *(NEW)*
+* **[frontend/src/components/TaskForm.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskForm.jsx)**
+* **[frontend/src/components/KanbanFilterBar.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/KanbanFilterBar.jsx)**
+* **[frontend/src/components/FilterBar.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/FilterBar.jsx)**
+* **[frontend/src/pages/Tasks.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/Tasks.jsx)**
+* **[frontend/src/pages/Projects.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/Projects.jsx)**
+
+### What Was Changed & Why:
+1. **Sub-Project Dropdown Grouping (`groupProjectsByParent`)**:
+   - Created `projectGrouping.js` helper utility that automatically groups projects into Parent Projects and Sub-projects for HTML select dropdowns (`<optgroup>`).
+   - Integrated grouped dropdowns in `TaskForm.jsx`, `KanbanFilterBar.jsx`, and `FilterBar.jsx` so users can easily select parent vs sub-projects when creating tasks or filtering boards.
+2. **Task Weight (Story Points) Jira Guide**:
+   - Added interactive info tooltip (`<Info />`) & Jira Standard Story Points guide in `TaskForm.jsx` mapping points (1, 2, 3, 5, 8, 13) to realistic complexity, effort, and duration guidelines.
+3. **Multi-Level Filters**:
+   - Added `parent_project_id`, `project_id`, `story_points`, `dueDate`, `assignee`, `stream`, and `priority` filter options with active filter pill tags to both `KanbanFilterBar.jsx` and `FilterBar.jsx`.
+
+---
+
+## 5. Apple-Style Magnification Dock & 3D Interactive Folder Vault Section
+
+### Files Modified / Created:
+* **[frontend/src/components/ui/dock.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/ui/dock.jsx)** *(NEW)*
+* **[frontend/src/components/ui/folder-interaction.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/ui/folder-interaction.jsx)** *(NEW)*
+* **[frontend/src/components/Sidebar.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/Sidebar.jsx)**
+* **[frontend/src/components/TaskModal.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskModal.jsx)**
+* **[frontend/src/components/TaskAttachments.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskAttachments.jsx)**
+
+### What Was Changed & Why:
+1. **Apple-Style Navigation Dock (`dock.jsx` & `Sidebar.jsx`)**:
+   - Integrated Framer Motion Apple Dock in `Sidebar.jsx` with smooth mouse-distance magnification scale effect on hover.
+2. **3D Interactive Folder Vault (`folder-interaction.jsx`)**:
+   - Created 3D Interactive Folder Vault component with animated opening/closing, file stack cards, and Obsidian Zinc dark theme alignment.
+   - Compacted size and integrated inside `TaskModal.jsx` and `TaskAttachments.jsx` for attachment file previews.
+
+---
+
+## 6. Activity Center Collapse/Expand State Fix Section
+
+### Files Modified:
+* **[frontend/src/pages/AdminActivity.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/AdminActivity.jsx)**
+* **[frontend/src/styles/globals.css](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/styles/globals.css)**
+
+### What Was Changed & Why:
+1. **Independent Collapse/Expand States**:
+   - Fixed Activity Center section collapse behavior in `AdminActivity.jsx` so closing one section (Activity Feed, Stale Tasks, or User Summary) collapses it cleanly without keeping sibling sections partially open or breaking page layout.
+2. **Theme-Aware Yesterday Divider Line**:
+   - Styled section dividers ("yesterday" / date lines) to render subtle light borders in Light mode and dark zinc lines in Dark mode (`:root[data-theme='light']` vs dark mode).
+
+---
+
+## 7. Dashboard View Live Team Avatars & Chart Theme Alignment Section
+
+### Files Modified:
+* **[frontend/src/pages/DashboardView.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/DashboardView.jsx)**
+
+### What Was Changed & Why:
+1. **Live Team Avatars Palette & Ring Styling**:
+   - Replaced hardcoded electric cyan glows (`shadow-[0_10px_22px_rgba(14,165,233,0.18)]`, `ring-cyan-400`) and artificial cyan gradient fills.
+   - Added dynamic `avatarGradientsDark` (charcoal, deep indigo `#1e1b4b`, forest emerald `#064e3b`, deep violet `#4c1d95`, warm amber) and `avatarGradientsLight` (soft indigo, emerald, violet, amber tints) with theme-aware borders (`border-white ring-slate-200` in light, `border-zinc-900 ring-zinc-700/60` in dark).
+2. **Status Flow Bar Chart Theme Alignment**:
+   - Mapped bar colors semantically by status (`getStatusThemeColor`): To Do (Sky), In Progress (Blue), Testing (Amber), Completed (Emerald), Blocked (Rose), In Review (Violet), Backlog (Slate).
+   - Applied soft matte fill opacity (`0.75`), rounded bar radius `[6, 6, 0, 0]`, and removed the generic `● value` legend dot.
+3. **React Import Fix**:
+   - Fixed missing `useCallback` import on line 1 of `DashboardView.jsx` to prevent runtime `useCallback is not defined` error.
+
+---
+
+## 8. Login Page AI Trope Cleanup & Logo Softening Section
+
+### Files Modified:
+* **[frontend/src/pages/Login.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/Login.jsx)**
+
+### What Was Changed & Why:
+1. **Removed Artificial AI Template Elements**:
+   - Removed empty dark placeholder box (`mt-6 rounded-xl p-4`) at the bottom of the login card.
+   - Removed artificial corner line brackets (`border-l-2 border-t-2`) and random pulsing floating cyan background dots.
+2. **Theme Badges & Submit Button Text Color**:
+   - Refined `TTL DAILY TRACKER` badge to a clean corporate pill badge.
+   - Enforced `!text-white` on Sign In button for both themes so text stays pure crisp white on blue button background.
+3. **Softened Tata Logo Tile in Dark Mode**:
+   - Updated Tata logo container in dark mode to soft matte white (`bg-white/80 border-zinc-700/50 p-1`) to eliminate harsh bright glaring white square flashing against dark zinc card.
+
+---
+
+## 9. Windows OS Browser Dropdown & Top Scroll Progress Bar Section
+
+### Files Modified:
+* **[frontend/src/components/ScrollProgressBar.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/ScrollProgressBar.jsx)**
+* **[frontend/src/styles/globals.css](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/styles/globals.css)**
+
+### What Was Changed & Why:
+1. **Windows Native `<select>` Dropdown Fix**:
+   - **Bug**: Chrome/Edge on Windows OS default native `<option>` tags inside `<select>` to a bright `#ffffff` white background even in dark theme.
+   - **Fix**: Added explicit global CSS rule in `globals.css`:
+     ```css
+     select option {
+       background-color: #18181b !important;
+       color: #f4f4f5 !important;
+     }
+     :root[data-theme='light'] select option {
+       background-color: #ffffff !important;
+       color: #0f172a !important;
+     }
+     ```
+   - Guarantees dark zinc dropdown options on Windows OS browsers in dark theme.
+2. **Top Scroll Progress Bar Theme Matching**:
+   - Styled top scroll progress bar (`ScrollProgressBar.jsx`) variables in `globals.css` (`--progress-track`, `--progress-fill`, `--progress-glow`).
+   - Dark Mode: Indigo-Blue gradient (`#3b82f6` ➔ `#6366f1`) with soft indigo glow.
+   - Light Mode: Sapphire Sky-Blue-Violet gradient (`#0284c7` ➔ `#2563eb` ➔ `#7c3aed`) matching light mode title accents.
