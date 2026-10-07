@@ -448,4 +448,85 @@ Excel Bulk Import feature me real-world use me jo **Challenges & Edge Cases** aa
   - 🔴 **Red Row:** *"Missing required task title"* ya *"Invalid email syntax"*
   - Sever crash hone ke bajaye user ko live screen par galti batata hai taaki wo use Excel me thik karke upload kar sake.
 
+
+
+
+
+
+---
+Here is the complete, detailed list of all sections and files modified, along with what changes were made and why:
+
+---
+
+# 📋 Comprehensive Summary of All Changes Made
+
+---
+
+## 1. Task Attachments & Shareable S3-Like VM Links Section
+
+### Files Modified:
+* **[backend/src/controllers/taskController.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/controllers/taskController.js)**
+* **[backend/src/server.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/server.js)**
+* **[frontend/src/components/TaskAttachments.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskAttachments.jsx)**
+
+### What Was Changed & Why:
+1. **Fixed Blank Page Issue on Link Attachments**:
+   - **Bug**: `getTaskAttachments` SQL query was missing `a.file_path` in its `SELECT` statement, causing loaded attachment objects to have `file_path = undefined`. Clicking links opened `about:blank`.
+   - **Fix**: Added `a.file_path` to SQL `SELECT` in `getTaskAttachments` and `RETURNING` clause in `uploadTaskAttachment`.
+   - **URL Normalization**: Added `getShareableUrl` on frontend to automatically prepend `https://` to external web links (e.g., `google.com` ➔ `https://google.com`), preventing Vite from treating them as relative `localhost` routes.
+2. **Shareable VM Static Serving (S3-Like Links)**:
+   - **Backend Fix**: Re-ordered Express static middleware in `server.js` (`app.use('/uploads', express.static(...))`) to run **before** the 404 fallback handler.
+   - **Copy Shareable Link Button**: Added a **Share Link (`<Share2 />`)** button to every attachment in `TaskAttachments.jsx`. Clicking it copies the full backend server URL (e.g., `http://<your-server-ip>:5000/uploads/attachments/file.png`) to clipboard so anyone can view/download files directly from the VM without logging in.
+
+---
+
+## 2. User Audit Logging & Role Tracking Section
+
+### Files Modified / Created:
+* **[backend/src/server.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/server.js)**
+* **[backend/src/controllers/userController.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/controllers/userController.js)**
+* **[backend/src/routes/userRoutes.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/routes/userRoutes.js)**
+* **[frontend/src/services/userService.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/services/userService.js)**
+* **[frontend/src/components/UserAuditLogModal.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/UserAuditLogModal.jsx)** *(NEW)*
+* **[frontend/src/pages/Users.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/pages/Users.jsx)**
+
+### What Was Changed & Why:
+1. **Database Schema**:
+   - Added PostgreSQL `AuditLogs` table migration (`audit_id`, `actor_id`, `target_user_id`, `action_type`, `description`, `old_value`, `new_value`, `created_at`).
+2. **Backend Automatic Triggers**:
+   - **`updateUser`**: Detects role changes (e.g., `User ➔ Admin` or `Admin ➔ User`) and status changes (`Active ➔ Inactive`), logging Admin actor ID, affected user, old role, new role, and exact timestamp.
+   - **`createUser` & `deleteUser`**: Logs user creation and deactivation events.
+   - **`getAuditLogs` Controller & Route**: Added `GET /api/users/audit-logs` API endpoint for Admins.
+3. **Frontend Audit UI**:
+   - Created `UserAuditLogModal.jsx`: Modal displaying a searchable, paginated audit log with action type filters (Role Change, Status Change, User Created, Deactivated) and visual role diff pills (`USER ➔ ADMIN`).
+   - Added **"Audit Logs" (`<ShieldAlert />`)** button to the command panel in `Users.jsx`.
+
+---
+
+## 3. Threaded Comments & Admin ↔ User Discussion Section
+
+### Files Modified / Created:
+* **[backend/src/server.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/server.js)**
+* **[backend/src/controllers/taskController.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/backend/src/controllers/taskController.js)**
+* **[frontend/src/services/taskService.js](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/services/taskService.js)**
+* **[frontend/src/components/TaskCommentsThread.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskCommentsThread.jsx)** *(NEW)*
+* **[frontend/src/components/TaskModal.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskModal.jsx)**
+* **[frontend/src/components/TaskForm.jsx](file:///Users/apple/Desktop/TTL_Tracker_Office-main/frontend/src/components/TaskForm.jsx)**
+
+### What Was Changed & Why:
+1. **Database Schema**:
+   - Added `parent_comment_id` column to `TaskComments` table (`ALTER TABLE TaskComments ADD COLUMN IF NOT EXISTS parent_comment_id INT REFERENCES TaskComments(comment_id)...`).
+2. **Backend Logic & Reply Notifications**:
+   - `addComment`: Accepts `parent_comment_id`. If replying to a specific user's comment, sends a targeted notification to the parent comment author.
+   - `getComments`: Selects author role (`r.role_name`) and parent user details.
+3. **UI Labeling (Remarks vs Discussion)**:
+   - Re-labeled Remarks as **"Daily Progress Remarks"** in `TaskForm.jsx` to prevent confusion with general comments.
+   - Labeled Comments as **"Admin & Team Discussion"** in `TaskModal.jsx`.
+4. **Threaded Comments UI Component (`TaskCommentsThread.jsx`)**:
+   - Implemented nested reply threads with indented containers (`ml-5 border-l-2`).
+   - Added **"Reply"** button on every comment card.
+   - Added an active `"Replying to [Author Name]"` banner with cancellation support above the input field.
+   - **Role Badges**: Added visual `ADMIN` (cyan/amber) vs `USER` (slate) badges.
+5. **Polished Light & Dark Theme Support**:
+   - Refined theme tokens so Light (White) Theme renders high-contrast soft cyan badges (`bg-cyan-50`, `border-cyan-300`, `text-cyan-800`), crisp white card backgrounds, and dark slate typography instead of washed-out or overly dark boxes.
    
